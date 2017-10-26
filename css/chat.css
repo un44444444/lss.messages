@@ -1,0 +1,299 @@
+body {
+    color: #4d4d4d;
+    font: 14px/1.4em 'Helvetica Neue', Helvetica, 'Microsoft Yahei', Arial, sans-serif;
+    background-size: cover;
+    font-smoothing: antialiased;
+}
+
+.messageli {
+
+    display: block;
+    text-align: -webkit-match-parent;
+    margin-left: -40px;
+}
+.messageul {
+    overflow-y: scroll;
+    list-style: none;
+}
+.mainpanel{
+    width: 800px;
+    height: 600px;
+    margin-top: 20px;
+    margin-left: 280px;
+    background-color: #2e3238;
+    border-radius: 3px;
+}
+.m-card {
+    padding: 9pt;
+    border-bottom: 1px solid #24272c;
+}
+.m-card .name {
+    display: inline-block;
+    margin: 0 0 0 15px;
+    font-size: 1pc;
+}
+.m-card .avatar, .m-card .name {
+    vertical-align: middle;
+}
+div {
+    display: block;
+}
+#chat .sidebar {
+    float: left;
+    width: 200px;
+    height: 570px;
+    color: #f4f4f4;
+    background-color: #2e3238;
+    border-bottom-left-radius:3px;
+    border-top-left-radius:3px;
+    /*overflow-x: hidden;*/
+    /*overflow-y:scroll;*/
+}
+input {
+    margin-top: 10px;
+    cursor: auto;
+    padding: 1px;
+    border: 2px inset;
+}
+.m-card .search {
+    padding: 0 10px;
+    width: 100%;
+    font-size: 9pt;
+    color: #fff;
+    height: 30px;
+    line-height: 30px;
+    border: 1px solid #3a3a3a;
+    border-radius: 4px;
+    outline: 0;
+    background-color: #26292e;
+}
+.m-list li {
+    padding: 9pt 15px;
+    border-bottom: 1px solid #292c33;
+    cursor: pointer;
+    -webkit-transition: background-color .1s;
+    transition: background-color .1s;
+    /*background-color: #26292e;*/
+}
+.m-list .avatar, .m-list .name {
+    vertical-align: middle;
+}
+
+
+img{
+    width: 30px;
+    height: 30px;
+}
+p {
+    display: block;
+    margin-left: 50px;
+    margin-top: -25px;
+}
+
+.m-message{
+    align-content: center;
+    width: 98%;
+    height: 300px;
+    overflow-y:scroll;
+    border-style: none;
+}
+::-webkit-scrollbar
+{
+    width: 3px;
+    height: 16px;
+    background-color: #E0E0E0;
+}
+
+/*定义滚动条轨道 内阴影+圆角*/
+::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    background-color: #F5F5F5;
+}
+
+/*定义滑块 内阴影+圆角*/
+::-webkit-scrollbar-thumb
+{
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #555;
+}
+.m-text{
+    background-color: #ffffff;
+    margin-left: 200px;
+    width: 600px;
+    height: 150px;
+    border-bottom-right-radius:3px;
+}
+.m-text textarea {
+    padding: 10px;
+    height: 100%;
+    width: 100%;
+    border: none;
+    outline: 0;
+    font-family: Micrsofot Yahei;
+    resize: none;
+    border-bottom-right-radius:3px;
+}
+.m-message li {
+    margin-bottom: 15px;
+    margin-right: 10px;
+}
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+.m-message .time {
+    margin: 7px 0;
+    text-align: center;
+}
+.m-message .self {
+    text-align: right;
+}
+.m-message .backself {
+    text-align: left;
+}
+
+img{
+    width: 30px;
+    height: 30px;
+}
+.m-message .time>span {
+    display: inline-block;
+    padding: 0 18px;
+    font-size: 9pt;
+    color: #fff;
+    border-radius: 2px;
+    background-color: #dcdcdc;
+}
+.m-message .text {
+    display: inline-block;
+    position: relative;
+    padding: 0 10px;
+    max-width: calc(100% - 40px);
+    min-height: 30px;
+    line-height: 2.5;
+    font-size: 9pt;
+    text-align: left;
+    word-break: break-all;
+    background-color: #fafafa;
+    border-radius: 4px;
+}
+
+.m-message .nametext {
+    font-size: 9pt;
+
+}
+
+
+.m-message .backtext {
+    display: inline-block;
+    position: relative;
+    padding: 0 10px;
+    max-width: calc(100% - 40px);
+    min-height: 30px;
+    line-height: 2.5;
+    font-size: 9pt;
+    text-align: left;
+    word-break: break-all;
+    background-color: #428bca;
+    border-radius: 4px;
+
+}
+.m-message .self .text:before {
+    right: inherit;
+    left: 100%;
+    border-right-color: transparent;
+    border-left-color: #b2e281;
+}
+.m-message .backself .text:after {
+    right: inherit;
+    left: 100%;
+    border-right-color: transparent;
+    border-left-color: #b2e281;
+}
+
+.m-message .text:before {
+              content: " ";
+              position: absolute;
+              top: 9px;
+              right: 100%;
+              border: 6px solid transparent;
+              border-right-color: #fafafa;
+          }
+.m-message .backtext:after {
+    content: " ";
+    position: absolute;
+    top: 9px;
+    right: 100%;
+    border: 6px solid transparent;
+    border-right-color: #428bca;
+}
+
+.m-message .self .text {
+    background-color: #b2e281;
+}
+
+.m-message .self .avatar {
+    float: right;
+    margin: 0 0 0 10px;
+}
+.m-message .self .backavatar {
+    top: 5px;
+    float: right;
+    margin: 0 0 0 10px;
+
+}
+.m-message .avatar {
+    float: left;
+    margin: 0 10px 0 0;
+    border-radius: 3px;
+    width: 35px;
+    height: 35px;
+}
+.m-message .backavatar {
+    float: left;
+    margin: 10px 10px 0 0;
+    border-radius: 3px;
+    width: 35px;
+    height: 35px;
+}
+
+.edit{
+    outline: none;
+    background-color: transparent;
+    text-align: center;
+    margin:0 auto;
+    border-style: none;
+
+}
+.textarea{
+    outline: none;
+    background-color: transparent;
+    border-style: ridge;
+}
+
+.secondmenu li.active {
+    background-color: #eee;
+    border-color: #428bca;
+}
+.bg{
+    background-image: url("../img/bg.jpg");
+    text-align: center;
+
+}
+
+.textbgcolor{
+    color: black;
+}
+
+.mymodal{
+    padding-top: 65px;
+}
+
+.mybox{
+    width: 250px;
+    height: 350px;
+}
+
+
