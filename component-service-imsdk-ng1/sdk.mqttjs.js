@@ -1,27 +1,7 @@
 (function (exports) {
     'use strict';
 
-    function onMessage() {
-        console.log("onMessage()");
-    }
-
-    function onConnect() {
-        console.log("onConnect()");
-    }
-
-    function onReconnect() {
-        console.log("onReconnect()");
-    }
-
-    function onOffline() {
-        console.log("onOffline()");
-    }
-
-    function onClose() {
-        console.log("onClose()");
-    }
-
-    // 服务依赖
+    // 导出类
     exports.MqttMessage = MqttMessage;
     // 即时消息集成开发服务
     function MqttMessage() {
@@ -35,25 +15,29 @@
         };
 
         // 初始化各项配置
-        this.init = function (config) {
+        this.init = function (mqtt_ws, config) {
             // 连接服务器
             if (!client) {
                 client = mqtt.connect(mqtt_ws);
             }
             // 设置各种事件处理方法
-            client.on('connect', config.onConnect ? config.onConnect : default_config.onConnect);
-            client.on('reconnect', config.onReconnect ? config.onReconnect : default_config.onReconnect);
-            client.on('offline', config.onOffline ? config.onOffline : default_config.onOffline);
-            client.on('close', config.onClose ? config.onClose : default_config.onClose);
-            client.on('message', config.onMessage ? config.onMessage : default_config.onMessage);
+            if (true) {
+                client.on('connect', config && config.onConnect ? config.onConnect : default_config.onConnect);
+                client.on('reconnect', config && config.onReconnect ? config.onReconnect : default_config.onReconnect);
+                client.on('offline', config && config.onOffline ? config.onOffline : default_config.onOffline);
+                client.on('close', config && config.onClose ? config.onClose : default_config.onClose);
+                client.on('message', config && config.onMessage ? config.onMessage : default_config.onMessage);
+            }
             // 
             return this;
         }
 
         // 监听事件处理
-        this.onMessageArrive = function (message_handle_func) {
+        this.onMessage = function (message_handle_func) {
             default_config.onMessage = message_handle_func;
-            client.on('message', message_handle_func);
+            if (!client) {
+                client.on('message', message_handle_func);
+            }
             return this;
         }
 
@@ -67,12 +51,33 @@
         }
 
         // 发布消息
-        this.sendMessage = function (topic, content) {
+        this.publish = function (topic, message) {
             if (!client) {
                 // TODO 错误提示
             }
-            client.publish(topic, content);
+            client.publish(topic, message);
             return this;
         }
     }
-})();
+
+    function onMessage() {
+        console.log("MqttMessage onMessage()");
+    }
+
+    function onConnect() {
+        console.log("MqttMessage onConnect()");
+    }
+
+    function onReconnect() {
+        console.log("MqttMessage onReconnect()");
+    }
+
+    function onOffline() {
+        console.log("MqttMessage onOffline()");
+    }
+
+    function onClose() {
+        console.log("MqttMessage onClose()");
+    }
+
+})(window);

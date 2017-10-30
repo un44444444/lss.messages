@@ -6,10 +6,11 @@ angular
     .controller('ChatController', ChatController);
 
     // 控制器依赖
-    ChatController.$inject = ['$scope','$http','$modal','MessageMqttjsService'];
+    ChatController.$inject = ['$scope','$http','$modal','IMSdkService'];
     // 聊天控制器
-    function ChatController($scope,$http,$modal,MessageMqttjsService){
-        var client=MessageMqttjsService.connect();
+    function ChatController($scope,$http,$modal,IMSdkService){
+        var client=null;
+        IMSdkService.init();
         var getTopic="";
         var arr=new Array();
         var getContentBuffer="";
@@ -28,9 +29,9 @@ angular
         //document.getElementById("btn_send").focus();//获取按钮焦点
 
         //订阅聊天室
-        client.subscribe("聊天室");
+        IMSdkService.login({userid:0});
         //监听他人发过来的消息
-        client.on("message", function(topic, payload) {
+        IMSdkService.onChatMessage(function(topic, payload) {
             var getname=payload.toString().split("~&");
             if (topic==$scope.user){
                 arr=addMessage(getname[1],getname[0],"backself","backtext",getname[0],getname[2],arr);
