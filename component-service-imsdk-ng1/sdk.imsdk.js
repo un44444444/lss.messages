@@ -7,19 +7,15 @@
     function ImSdk() {
         var client = null;
         var userid = null;
-        var message_handler = {
-            onChatMessage: onChatMessage,
-            onOfflineMessage: onOfflineMessage,
-        };
 
         // 初始化各项配置
         this.init = function (server, config) {
             // TODO 合并配置
+            config = config ? config : {};
+            config.onMessage = allMessageHandler;
             // 连接服务器
             if (!client) {
                 client = new MqttMessage();
-                //
-                config.onMessage = allMessageHandler;
                 client.init(server, config);
             }
             // 
@@ -36,6 +32,19 @@
             client.subscribe("/im/user/" + userid);
             //订阅聊天室
             client.subscribe("聊天室");
+            //
+            return this;
+        }
+
+        // 用户加入群聊
+        this.subscribeGroup = function (groupid) {
+            if (!client) {
+                // TODO 错误提示
+                console.log("client not init.");
+            }
+            var topic = "/im/group/" + groupid;
+            console.log("ImSdk subscribeGroup(), topic=", topic);
+            client.subscribe(topic);
             //
             return this;
         }
@@ -60,7 +69,7 @@
                 },
                 "body": content
             }
-            client.publish(topic, message);
+            client.publish(topic, JSON.stringify(message));
             return this;
         }
 
@@ -75,8 +84,7 @@
                 console.log("user not login.");
             }
             //
-            //var topic = "/im/group/" + groupid;
-            var topic = "聊天室";
+            var topic = "/im/group/" + groupid;
             var message = {
                 "header": {
                     "content-type": "chat." + msgtype,
@@ -85,7 +93,8 @@
                 },
                 "body": content
             }
-            client.publish(topic, message);
+            console.log("ImSdk sendGroupMessage(), topic=", topic);
+            client.publish(topic, JSON.stringify(message));
             return this;
         }
 
@@ -99,20 +108,26 @@
 
     // 收到消息后，分拣给各个回调处理函数
     function allMessageHandler(topic, payload) {
+        console.log("ImSdk allMessageHandler(), topic=", topic);
         var message = JSON.parse(payload);
         var message_type = message.header["content-type"].split(".")[0];
         var content = message.body;
-        content["type"] = message.header["content-type"].substring(strlen(message_type)+1);
+        content["type"] = message.header["content-type"].substring(message_type.length + 1);
+        //
+        var target = 1;
+        if (topic == "/im/group/1") {
+            target = "聊天室";
+        }
         //
         switch (message_type) {
             case "chat":
                 if (message_handler.onChatMessage) {
-                    message_handler.onChatMessage(topic, message);
+                    message_handler.onChatMessage(target, content);
                 }
                 break;
             case "offline":
                 if (message_handler.onOfflineMessage) {
-                    message_handler.onOfflineMessage(message);
+                    message_handler.onOfflineMessage(content);
                 }
                 break;
             default:
@@ -120,7 +135,12 @@
         }
     }
 
-    function onChatMessage(message) {
+    var message_handler = {
+        onChatMessage: onChatMessage,
+        onOfflineMessage: onOfflineMessage,
+    };
+
+    function onChatMessage(topic, message) {
         console.log("ImSdk onChatMessage()");
     }
 

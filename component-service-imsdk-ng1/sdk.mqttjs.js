@@ -27,6 +27,7 @@
                 client.on('offline', config && config.onOffline ? config.onOffline : default_config.onOffline);
                 client.on('close', config && config.onClose ? config.onClose : default_config.onClose);
                 client.on('message', config && config.onMessage ? config.onMessage : default_config.onMessage);
+                //client.on('message', default_config.onMessage);
             }
             // 
             return this;
@@ -43,6 +44,7 @@
 
         // 订阅主题
         this.subscribe = function (topic) {
+            console.log("MqttMessage subscribe(), topic=", topic);
             if (!client) {
                 // TODO 错误提示
             }
@@ -52,6 +54,7 @@
 
         // 发布消息
         this.publish = function (topic, message) {
+            console.log("MqttMessage publish(), topic=", topic, ", message=", message);
             if (!client) {
                 // TODO 错误提示
             }
@@ -60,7 +63,7 @@
         }
     }
 
-    function onMessage() {
+    function onMessage(topic, payload) {
         console.log("MqttMessage onMessage()");
     }
 

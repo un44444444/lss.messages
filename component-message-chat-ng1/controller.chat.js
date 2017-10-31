@@ -29,10 +29,11 @@ angular
         //document.getElementById("btn_send").focus();//获取按钮焦点
 
         //订阅聊天室
-        IMSdkService.login({userid:0});
+        IMSdkService.login({userid:1});
         //监听他人发过来的消息
-        IMSdkService.onChatMessage(function(topic, payload) {
-            var getname=payload.toString().split("~&");
+        IMSdkService.onChatMessage(function(topic, message) {
+            console.log("IMSdkService.onChatMessage() topic=", topic, ", message=", message);
+            var getname=message.text.split("~&");
             if (topic==$scope.user){
                 arr=addMessage(getname[1],getname[0],"backself","backtext",getname[0],getname[2],arr);
                 $scope.$apply(function(){
@@ -41,7 +42,7 @@ angular
                     $scope.countArray=viewCount($scope.toname,getname[0],$scope.countArray);
                 });
             }else {
-                if(payload.toString()!=getContentBuffer){//显示聊天室不是自己的消息
+                if(message.text!=getContentBuffer){//显示聊天室不是自己的消息
                     arr=addMessage(getname[1],getname[0],"backself","backtext",topic,getname[2],arr);
                     $scope.$apply(function(){
                         $scope.messages=viewMessage($scope.toname,topic,arr,topic);
@@ -55,7 +56,8 @@ angular
         //发送消息
         $scope.sendContent =function(){
             getContentBuffer=$scope.user+"~&"+$scope.s_content+"~&"+$scope.avatar;
-            client.publish($scope.toname, getContentBuffer);//发布
+            //IMSdkService.sendGroupText($scope.toname, getContentBuffer);//发布
+            IMSdkService.sendGroupText(1, getContentBuffer);//发布
             arr=addMessage($scope.s_content,"","self","text",$scope.toname,$scope.avatar,arr);
             $scope.messages=arr[$scope.toname];
             $scope.s_content="";
@@ -115,7 +117,7 @@ angular
         function subMyGroup(){
             $http.get("http://localhost:8080/group?userid="+$scope.userid).success(function(response) {
                 for (var i=0;i<response.length;i++){
-                    client.subscribe(response[i].name);
+                    IMSdkService.subscribeGroup(response[i].gid);
                 }
             });
         }

@@ -14,7 +14,7 @@
 
         // 初始话SDK
         this.init = function (appid, appsecret) {
-            if (!client) {
+            if (!imsdk) {
                 imsdk = new ImSdk();
                 imsdk.init(mqtt_ws);
             }
@@ -27,6 +27,16 @@
                 // TODO 错误提示
             }
             imsdk.login(user);
+            imsdk.subscribeGroup(1);
+            return this;
+        }
+
+        // 用户加入群聊
+        this.subscribeGroup = function (groupid) {
+            if (!imsdk) {
+                // TODO 错误提示
+            }
+            imsdk.subscribeGroup(groupid);
             return this;
         }
 

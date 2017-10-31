@@ -3,7 +3,7 @@ angular.module('modelapp', [
     'app.chat',
     'app.login',
     'app.logininterface',
-    'app.service.mqttjs',
+    'app.service.imsdk',
 
     'ui.bootstrap',
 ])
