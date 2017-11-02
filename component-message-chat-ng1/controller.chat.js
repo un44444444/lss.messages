@@ -31,24 +31,40 @@ angular
         //订阅聊天室
         IMSdkService.login({userid:1});
         //监听他人发过来的消息
-        IMSdkService.onChatMessage(function(topic, message) {
-            console.log("IMSdkService.onChatMessage() topic=", topic, ", message=", message);
+        IMSdkService.onChatMessage(function(fromtype, fromid, message) {
+            console.log("IMSdkService.onChatMessage() fromtype=", fromtype, ", fromid=", fromid, ", message=", message);
             var getname=message.text.split("~&");
-            if (topic==$scope.user){
-                arr=addMessage(getname[1],getname[0],"backself","backtext",getname[0],getname[2],arr);
-                $scope.$apply(function(){
-                    if ($scope.toname==getname[0])
-                        $scope.messages=viewMessage($scope.toname,getname[0],arr,getname[0]);
-                    $scope.countArray=viewCount($scope.toname,getname[0],$scope.countArray);
-                });
-            }else {
-                if(message.text!=getContentBuffer){//显示聊天室不是自己的消息
-                    arr=addMessage(getname[1],getname[0],"backself","backtext",topic,getname[2],arr);
-                    $scope.$apply(function(){
-                        $scope.messages=viewMessage($scope.toname,topic,arr,topic);
-                        $scope.countArray=viewCount($scope.toname,topic,$scope.countArray);
-                    });
+            // 收到好友聊天消息
+            if (fromtype == "chat") {
+                console.log("IMSdkService.onChatMessage() 收到好友聊天消息, fromid=", fromid);
+            }
+            // 收到群聊天消息
+            else if (fromtype == "group") {
+                var topic = fromid;
+                if (fromid == 1) {
+                    topic = "聊天室";
                 }
+                //
+                if (topic==$scope.user){
+                    arr=addMessage(getname[1],getname[0],"backself","backtext",getname[0],getname[2],arr);
+                    $scope.$apply(function(){
+                        if ($scope.toname==getname[0])
+                            $scope.messages=viewMessage($scope.toname,getname[0],arr,getname[0]);
+                        $scope.countArray=viewCount($scope.toname,getname[0],$scope.countArray);
+                    });
+                }else {
+                    if(message.text!=getContentBuffer){//显示聊天室不是自己的消息
+                        arr=addMessage(getname[1],getname[0],"backself","backtext",topic,getname[2],arr);
+                        $scope.$apply(function(){
+                            $scope.messages=viewMessage($scope.toname,topic,arr,topic);
+                            $scope.countArray=viewCount($scope.toname,topic,$scope.countArray);
+                        });
+                    }
+                }
+            }
+            // 未知类型聊天消息
+            else {
+                console.log("IMSdkService.onChatMessage() 收到未知类型聊天消息");
             }
             //  client.end();//关闭连接
         });

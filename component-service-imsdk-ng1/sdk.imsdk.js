@@ -98,11 +98,11 @@
             return this;
         }
 
-        this.onChatMessage = function (onChatMessage) {
-            message_handler.onChatMessage = onChatMessage;
+        this.onChatMessage = function (onImChatMessage) {
+            message_handler.onImChatMessage = onImChatMessage;
         }
-        this.onOfflineMessage = function (onOfflineMessage) {
-            message_handler.onOfflineMessage = onOfflineMessage;
+        this.onOfflineMessage = function (onImOfflineMessage) {
+            message_handler.onImOfflineMessage = onImOfflineMessage;
         }
     }
 
@@ -110,42 +110,54 @@
     function allMessageHandler(topic, payload) {
         console.log("ImSdk allMessageHandler(), topic=", topic);
         var message = JSON.parse(payload);
-        var message_type = message.header["content-type"].split(".")[0];
-        var content = message.body;
-        content["type"] = message.header["content-type"].substring(message_type.length + 1);
-        //
-        var target = 1;
-        if (topic == "/im/group/1") {
-            target = "聊天室";
+        var topic_parts = topic.split("/");
+        // IM消息
+        if (topic_parts[1] == "im") {
+            var message_type = message.header["content-type"].split(".")[0];
+            var content = message.body;
+            content["type"] = message.header["content-type"].substring(message_type.length + 1);
+            //
+            var fromtype = topic_parts[2];
+            var fromid = topic_parts[3];
+            //
+            switch (message_type) {
+                case "chat":
+                    if (message_handler.onImChatMessage) {
+                        message_handler.onImChatMessage(fromtype, fromid, content);
+                    }
+                    break;
+                case "offline":
+                    if (message_handler.onImOfflineMessage) {
+                        message_handler.onImOfflineMessage(fromtype, fromid, content);
+                    }
+                    break;
+                default:
+                    console.log("ImSdk allMessageHandler() unknown IM message_type=", message_type);
+            }
         }
-        //
-        switch (message_type) {
-            case "chat":
-                if (message_handler.onChatMessage) {
-                    message_handler.onChatMessage(target, content);
-                }
-                break;
-            case "offline":
-                if (message_handler.onOfflineMessage) {
-                    message_handler.onOfflineMessage(content);
-                }
-                break;
-            default:
-                console.log("ImSdk allMessageHandler() unknown message_type=", message_type);
+        // 智能立柜消息
+        else if (topic_parts[1] == "cupboard") {
+            ;
+        }
+        // 未知业务消息
+        else {
+            console.log("ImSdk allMessageHandler() unknown topic=", topic);
         }
     }
 
     var message_handler = {
-        onChatMessage: onChatMessage,
-        onOfflineMessage: onOfflineMessage,
+        // IM
+        onImChatMessage: onImChatMessage,
+        onImOfflineMessage: onImOfflineMessage,
+        // Cupboard
     };
 
-    function onChatMessage(topic, message) {
-        console.log("ImSdk onChatMessage()");
+    function onImChatMessage(fromtype, fromid, message) {
+        console.log("ImSdk onImChatMessage()");
     }
 
-    function onOfflineMessage(message) {
-        console.log("ImSdk onOfflineMessage()");
+    function onImOfflineMessage(fromtype, fromid, message) {
+        console.log("ImSdk onImOfflineMessage()");
     }
 
 })(window);
