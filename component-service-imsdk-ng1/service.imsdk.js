@@ -15,7 +15,7 @@
         // 初始话SDK
         this.init = function (appid, appsecret) {
             if (!imsdk) {
-                imsdk = new ImSdk();
+                imsdk = new MessageSdk();
                 imsdk.init(mqtt_ws);
             }
             return this;
