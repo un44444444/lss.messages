@@ -26,14 +26,14 @@ function TemplateTopbarController($state,CookieService) {
             sidebars_list.conversation = [
                 {
                     name: "个人最近会话页",
-                    imgurl:"/newchat/images/1.jpg",
+                    imgurl:"/lss.messages/images/1.jpg",
                     num:0,
                     sref: "conversation.conversation",
                     chatid:0
                 },
                 {
                     name: "群组最近会话页",
-                    imgurl:"/newchat/images/2.jpg",
+                    imgurl:"/lss.messages/images/2.jpg",
                     num:1,
                     sref: "conversation.groupconversation",
                     chatid:1
@@ -44,7 +44,7 @@ function TemplateTopbarController($state,CookieService) {
             sidebars_list.buddy =  [
                 {
                     name: "好友信息",
-                    imgurl:"/newchat/images/3.jpg",
+                    imgurl:"/lss.messages/images/3.jpg",
                     num:2,
                     sref: "buddy.buddyinfo",
                     chatid:2
@@ -55,7 +55,7 @@ function TemplateTopbarController($state,CookieService) {
             sidebars_list.group =  [
                 {
                     name: "群信息",
-                    imgurl:"/newchat/images/4.jpg",
+                    imgurl:"/lss.messages/images/4.jpg",
                     num:3,
                     sref: "group.groupinfo",
                     chatid:3
