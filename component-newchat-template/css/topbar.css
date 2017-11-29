@@ -1,0 +1,233 @@
+/*
+.top-body {
+    width: 100%;
+    min-width: 1380px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1;
+}
+
+.top-banner {
+    position: relative;
+    height: 86px;
+    text-align: center;
+    margin-bottom: 20px;
+    margin-left: -10px;
+    padding-left: 12px;
+}
+
+.blur-bg {
+    position: absolute;
+    background-image: url('../../images/silder1.png');
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-position: center -10px;
+    background-repeat: no-repeat;
+    -webkit-filter: blur(4px);
+    filter: blur(4px);
+}
+
+.nav-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: hsla(0,0%,100%,.4);
+    -webkit-box-shadow: rgba(0,0,0,.1) 0 1px 2px;
+    box-shadow: 0 1px 2px rgba(0,0,0,.1);
+}
+
+.bili-wrapper {
+    margin: 0 auto;
+    width: 1160px;
+}
+
+.clearfix {
+    zoom: 1;
+}
+
+.fl {
+    float: left;
+}
+
+.clearfix:after, .clearfix:before {
+    content: "";
+    display: table;
+}
+.nav-con .nav-item{
+    float:left;
+    text-align:center;
+    line-height:42px;
+    height:42px;
+    position:relative;
+    background-color:hsla(0,0%,100%,0);
+    -webkit-transition:all .3s;
+    -o-transition:all .3s;
+    transition:all .3s
+}
+
+.top-banner .nav-con .nav-item {
+    font-size: 16px;
+    margin-left: -10px;
+    padding-left: 12px;
+}
+
+.bili-header-m .nav-menu .nav-con .nav-item .t {
+    color: #222;
+    height: 100%;
+    display: block;
+    padding: 0 11px;
+}
+
+.hovertran:hover {
+    background-color:  hsla(0,0%,100%,.3);
+}
+
+!*下拉菜单*!
+.submenu {
+    display: none;
+    position: fixed;
+    top: 50px;
+    left: 0;
+    width: 100%;
+    text-align: -webkit-center;
+    background-color: hsla(0, 0%, 100%, .6);
+}
+
+.submenu li {
+    float: none;
+    padding: 0;
+    background: none;
+    height: auto;
+    border-bottom: dotted 0px #BEBEBE;
+}
+
+.mj_menu_pro_bg {
+    width: 100%;
+    height: auto;
+}
+
+.mj_menu_pro_main {
+    width: 100%;
+    margin: auto;
+    padding: 12px 0;
+    display: flex;
+    justify-content: center;
+    !*align-items: center;会垂直居中*!
+}
+
+.submenu_div {
+    width: 10%;
+    display: inline;
+    margin: 0 10px;
+
+    text-align: left;
+}
+
+.submenu_div i {
+    padding-left: 20px;
+    font: 20px soild;
+    color: rgba(0,0,0,0.6);
+    display: inline-block;
+    cursor: default;
+}
+
+.submenu_div ul li {
+    line-height: 30px;
+    color: #9e9e9e;
+    text-align: left;
+    padding-left: 20px;
+    cursor: pointer;
+}
+
+.submenu_div ul li:hover {
+    cursor: pointer;
+    color: #00a1d6;
+    background-color: rgba(218,218,218,0.7);
+}
+
+!*下拉菜单结束*!
+*/
+
+
+
+.top-body {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    padding-left: 15%;
+    padding-top: 3%;
+    overflow: auto;
+}
+
+@media screen and (max-width: 1000px) {
+    .top-body {
+        padding-left: 0;
+        padding-top: 0;
+    }
+}
+
+.top-content {
+    width: 70%;
+    height: 90%;
+    min-width: 1000px;
+    min-height: 500px;
+}
+
+.top-menu {
+    width: 50px;
+    height: 100%;
+    float: left;
+    background-color: #E0FFFF;
+    border-right: 1px inset;
+}
+
+.top-menu li:first-child {
+    margin-top: 20px;
+    color: #252525;
+}
+
+.top-menu li {
+    color: #9e9e9e;
+}
+
+.top-menu li:hover {
+    background: #e4e4e4;
+    color: #252525;
+}
+
+.top-li {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 35px;
+}
+
+.top-li a {
+    position: absolute;
+    color: #9e9e9e;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+.top-li a:hover {
+    color: #252525;
+}
+
+.top-main {
+    width: 100%;
+    height: 100%;
+    padding-left: 50px;
+    background-color: white;
+}
+
+.currenttopbar {
+    color: #252525;
+}

@@ -1,0 +1,20 @@
+<div class="main-content">
+    <div class="main-menu">
+        <ul>
+            <li ng-repeat="siderbar in vm.sidebars" ui-sref-active="currentsiderbar" ng-class="{currentsiderbar:vm.state.is(siderbar.sref) && (vm.state.params.chatid === siderbar.chatid)}">
+                <div class="li-img">
+                    <img ng-src="{{siderbar.imgurl}}">
+                    <div class="main-prompt" ng-hide="siderbar.num === 0 || !siderbar.num">{{siderbar.num}}</div>
+                </div>
+                <div class="menu-name">{{siderbar.name}}</div>
+                <div class="menu-close" ui-sref="{{siderbar.sref}}({userid:vm.userid,chatid:siderbar.chatid,name:siderbar.name})">
+                    <div class="menu-close-div" ng-click="vm.close(siderbar.name)">
+                        <i class="fa fa-close"></i>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="main-page" ui-view>
+    </div>
+</div>

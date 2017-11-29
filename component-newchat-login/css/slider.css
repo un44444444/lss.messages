@@ -1,0 +1,70 @@
+/*首页轮播样式*/
+.slider-wrapper {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    min-height: 135px;
+    max-height: 324px;
+}
+.new-slide {
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+.focus-btn {
+    overflow: hidden;
+    text-align: center;
+    position: absolute;
+    bottom: 27px;
+    left: 0;
+    z-index: 11;
+    width: 100%;
+}
+.slide-li {
+    width: 100%;
+    visibility: visible;
+    float: left;
+    display: -webkit-box;
+    -webkit-box-pack: center;
+    -webkit-box-align: center;
+}
+.slide-li img {
+    display: block;
+    overflow: hidden;
+    width: 100%;
+
+}
+.focus-btn span {
+    border-radius: 7px;
+    -webkit-border-radius: 7px;
+    -ms-border-radius: 7px;
+    height: 6px;
+    width: 6px;
+    border: 1px solid #fff;
+    margin: 0 4px;
+    display: inline-block;
+    opacity: 1;
+}
+.focus-btn .active {
+    border-radius: 7px;
+    -webkit-border-radius: 7px;
+    -ms-border-radius: 7px;
+    height: 6px;
+    width: 6px;
+    border: 1px solid #fff;
+    margin: 0 4px;
+    display: inline-block;
+    background: #FFF;
+}
+
+.floor {
+    font-size: 0;
+    width: 100%;
+}
+.home-top{
+    height: inherit;
+    width: inherit;
+    position: relative;
+    background-color: #fff;
+}
+/*首页轮播样式*/

@@ -1,0 +1,167 @@
+<!--弹窗-->
+<message-component message-visible="vm.messageVisible" message="vm.message" cancel="vm.cancel()" sure="vm.sure()" btn="vm.btn()"></message-component>
+
+<!--主体-->
+<div class="main-div main-body">
+    <div class="login-app">
+        <div class="main-div">
+            <div class="top-banner">
+                <div class="blur-bg"></div>
+                <div class="nav-mask"></div>
+                <div class="bili-wrapper clearfix">
+                    <div class="nav-con">
+                        <ul>
+                            <li class="nav-item home">
+                                <div class="nav-content">
+                                    <img style="height: inherit;width: auto;" src="images/logo.png">
+                                    <a href="//www.baidu.com" title="" />
+                                </div>
+                            </li>
+
+                            <li class="nav-item home">
+                                <div class="nav-content">
+                                    <i>欢迎来到newchat！</i>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="title-line">
+                <span class="tit">登录</span>
+            </div>
+
+
+            <div class="login-box clearfix">
+                <div class="login-left">
+                    <div class="newlogin-left">
+
+                        <!--轮播-->
+                        <div class="container">
+                            <div class="wrapper">
+
+                                <ul id="sb-slider" class="sb-slider">
+                                    <li>
+                                        <a href="" target="_blank"><img src="images/1.jpg" alt="image1"/></a>
+                                        <div class="sb-description">
+                                            <h3>Creative Lifesaver</h3>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a href="" target="_blank"><img src="images/2.jpg" alt="image2"/></a>
+                                        <div class="sb-description">
+                                            <h3>Honest Entertainer</h3>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a href="" target="_blank"><img src="images/3.jpg" alt="image3"/></a>
+                                        <div class="sb-description">
+                                            <h3>Brave Astronaut</h3>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a href="" target="_blank"><img src="images/4.jpg" alt="image4"/></a>
+                                        <div class="sb-description">
+                                            <h3>Affectionate Decision Maker</h3>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a href="" target="_blank"><img src="images/5.jpg" alt="image5"/></a>
+                                        <div class="sb-description">
+                                            <h3>Faithful Investor</h3>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a href="" target="_blank"><img src="images/6.jpg" alt="image6"/></a>
+                                        <div class="sb-description">
+                                            <h3>Groundbreaking Artist</h3>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a href="" target="_blank"><img src="images/7.jpg" alt="image7"/></a>
+                                        <div class="sb-description">
+                                            <h3>Selfless Philantropist</h3>
+                                        </div>
+                                    </li>
+                                </ul>
+
+                                <div id="shadow" class="shadow"></div>
+
+                                <div id="nav-arrows" class="nav-arrows">
+                                    <a href="#">Next</a>
+                                    <a href="#">Previous</a>
+                                </div>
+
+                                <div id="nav-dots" class="nav-dots">
+                                    <span class="nav-dot-current"></span>
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+
+                            </div><!-- /wrapper -->
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="line"></div>
+
+                <div class="login-right">
+                    <div class="newlogin-right">
+                        <div class="input-box">
+                            <ul>
+                                <li class="li-css">
+                                    <input class="input-css" type="text" value="" placeholder="你的手机号" maxlength="50" autocomplete="off" class="" ng-model="vm.user.username">
+                                </li>
+                                <li class="li-css">
+                                    <input class="input-css" type="password" value="" placeholder="密码"  autocomplete="off" class="" ng-model="vm.user.password">
+                                </li>
+                                <li class="li-css">
+                                    <label class="label-css" style="text-align: left"><a ui-sref="newfoget">忘记密码？</a></label>
+                                    <label class="label-css" style="text-align: right"><a ui-sref="register">注册</a></label>
+                                </li>
+                                <li class="li-css">
+                                    <button class="btn-login" ng-click="vm.login(vm.user)">登录</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="footer bili-footer">
+                <div class="footer-wrp">
+                    <div class="footer-cnt clearfix">
+                        <div class="partner">
+                            <div class="partner-logo">
+                                <div class="partner-logo-img"></div>
+                            </div>
+                            <div class="partner-logo" style="margin: 0px 68px 0 115px;line-height:24px;float: none;">
+                                <p>
+                                    balabalabala  此处自己改：<span> balabalabala  此处自己改</span> |  balabalabala  此处自己改：<span> balabalabala  此处自己改</span> |
+                                    balabalabala  此处自己改：<span> balabalabala  此处自己改</span> |  balabalabala  此处自己改：<span> balabalabala  此处自己改</span>  balabalabala  此处自己改：<span> balabalabala  此处自己改</span>
+                                |  balabalabala  此处自己改 |  balabalabala  此处自己改： balabalabala  此处自己改
+                                </p>
+                                <p>
+                                    <a href="http://" target="_blank"><span> balabalabala  此处自己改</span></a> |
+                                    <a href="http://" target="_blank"> balabalabala  此处自己改</a> |
+                                    <a href="http://" target="_blank"> balabalabala  此处自己改</a> |
+                                    <a href="http://" target="_blank"> balabalabala  此处自己改</a>
+                                </p>
+                                <p>
+                                    <a href="http://" target="_blank"> balabalabala  此处自己改：  balabalabala  此处自己改</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

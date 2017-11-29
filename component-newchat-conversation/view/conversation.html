@@ -1,0 +1,31 @@
+<div class="page">
+
+    <div class="page-head">
+        <span>{{vm.name}}</span>
+    </div>
+
+    <div class="page-body">
+        <div style="padding-top: 10px;" align="center">
+            <ul>
+                <li ng-repeat="message in vm.messages">
+                    <p><span>{{message.time}}</span></p>
+                    <div>
+                        <img ng-src="{{message.avatar}}" class="avatar" height="30" width="30">
+                        <div>
+                            <div>{{message.name}}</div>
+                            <div class="{{message.boxtype}}">{{message.content}}</div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="page-foot">
+        <textarea rows="4" class="textarea text"></textarea>
+        <div class="page-sendarea">
+            <button class="google_waves">发送</button>
+        </div>
+    </div>
+
+</div>

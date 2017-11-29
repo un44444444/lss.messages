@@ -1,0 +1,34 @@
+<div style=" position: fixed;top: 0;bottom: 0;left: 0;right: 0;background-color: rgba(0, 0, 0, 0.23);z-index: 1000;">
+    <div style=" width: 70%;
+    height: 35%;
+    margin-left: 15%;
+    margin-top: 150px;
+    background-color: white;
+    border-radius: 12px;
+    position: relative;">
+        <div style="padding-top: 1px">
+
+
+            <ul class="newhomeul" style="margin-top: 8px">
+                <li class="newhomeul-li-pic"style="padding-left: 3px"><img src="images/newtel.png" style="width: 0.26rem;float: left;height: 25px; padding-top: 2px;margin-left: -6px;"> </li>
+                <li class="newhomeul-li-num"><input ng-model="vm.user.username" class="newhomeul-li-num-input" id="phone" placeholder="请输入手机号码"autocomplete="off"/> </li>
+                <li class="newhomeul-li-eye"> </li>
+            </ul>
+            <ul class="newhomeul" style="margin-top: 20px;">
+                <li class="newhomeul-li-pic"><img src="images/newlock.png" style="width: 0.33rem;float: left;margin-left: -6px;"> </li>
+                <li class="newhomeul-li-num">
+                    <input type="password" ng-model="vm.user.password" class="newhomeul-li-num-input" placeholder="请输入密码" autocomplete="off"/>
+                </li>
+                <!--<li class="newhomeul-li-eye"><img src="images/neweye.png" style="width: 0.5rem;float: left;padding-top: 12px;"> </li>-->
+            </ul>
+
+            <button class="newhome-button" style="width: 76%;margin-left: 12%;" ng-click="vm.login(vm.user)">登 录</button >
+            <div class="newhome-bottom">
+                <button style="float: left;height: 38px;border: none;background-color: white;padding-bottom: 12px;" ui-sref="newfoget">忘记密码？</button>
+                <!--<button style="float: right;height: 38px;border: none;background-color: white;padding-bottom: 12px;" ng-click="vm.register()">注册</button>-->
+            </div>
+
+        </div>
+
+    </div>
+</div>

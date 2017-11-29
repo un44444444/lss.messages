@@ -1,0 +1,11 @@
+/*注册页面*/
+.register-code{
+    width: 100%;
+    height: 0.5833rem;
+    border: none;
+    border-radius: 0.0833rem;
+    margin-top: 0.0833rem;
+    font-size: 0.25rem;
+    background-color: #36aae3;
+    color: white;
+}

@@ -1,0 +1,23 @@
+j<!--登录窗口-->
+<editable-field loginform-visible="vm.loginformVisible" login="vm.login()"></editable-field>
+<!--弹窗-->
+<message-component message-visible="vm.messageVisible" message="vm.message" cancel="vm.cancel()" sure="vm.sure()"></message-component>
+
+<div class="newhome">
+    <ul class="newhomeul">
+        <li class="newhomeul-li-pic"style="padding-left: 0.05rem"><img src="images/newtel.png" style="width: 0.26rem;float: left;height: 0.41667rem; padding-top: 0.03333rem;"> </li>
+        <li class="newhomeul-li-num" style="width: 60%"><input class="newhomeul-li-num-input" id="phone" ng-model="phone" placeholder="请输入手机号码"> </li>
+        <li class="newhomeul-li-eye" style="width: 30%">
+            <button class="register-code active" ng-show="vm.codectrl" ng-click="vm.getcode(phone)">发送验证码</button>
+            <button class="register-code" ng-hide="vm.codectrl" disabled>重新发送（{{vm.time | date:'ss'}}）</button>
+        </li>
+    </ul>
+    <ul class="newhomeul" style="margin-top: 0.33333rem;">
+        <li class="newhomeul-li-pic"></li>
+        <li class="newhomeul-li-num"><input class="newhomeul-li-num-input" ng-model="code" placeholder="请输入验证码"> </li>
+        <li class="newhomeul-li-eye"></li>
+    </ul>
+
+    <button class="withdraw" style="width: 76%;margin-left: 12%;" id="nextbtn" ng-click="vm.nextbtn(phone,code)" disabled>提 交</button >
+
+</div>

@@ -1,0 +1,31 @@
+<!--弹窗-->
+<message-component message-visible="vm.messageVisible" message="vm.message" cancel="vm.cancel()" sure="vm.sure()"></message-component>
+
+<div class="newhome">
+    <!--<div class="new-head">
+        <div class="new-head-concrect">
+            <span class="glyphicon glyphicon-menu-left" style="margin-top: 10px;margin-left: 4px;"></span>
+            <span>忘记密码</span>
+        </div>
+    </div>-->
+    <ul class="newhomeul">
+        <li class="newhomeul-li-pic"style="padding-left: 0.05rem"><img src="images/newtel.png" style="width: 0.15rem;float: left;height: 0.41667rem; padding-top: 0.03333rem;"> </li>
+        <li class="newhomeul-li-num"><input class="newhomeul-li-num-input" id="phone" ng-model="vm.phone" placeholder="请输入手机号码"> </li>
+    </ul>
+    <ul class="newhomeul" style="margin-top: 0.33333rem;">
+        <li class="newhomeul-li-pic"><img src="images/newlock.png" style="width: 0.2rem;float: left;"></li>
+        <li class="newhomeul-li-num"><input class="newhomeul-li-num-input" ng-model="vm.password" placeholder="请输入密码"> </li>
+        <li class="newhomeul-li-eye"></li>
+    </ul>
+    <ul class="newhomeul" style="margin-top: 0.33333rem;">
+        <li class="newhomeul-li-pic"></li>
+        <li class="newhomeul-li-num" style="width: 60%"><input class="newhomeul-li-num-input" ng-model="vm.code" placeholder="请输入验证码"> </li>
+        <li class="newhomeul-li-eye" style="width: 30%">
+            <button class="register-code" ng-show="codectrl" ng-click="vm.getcode(vm.phone)">发送验证码</button>
+            <button class="register-code" ng-hide="codectrl" disabled>重新发送（{{time | date:'ss'}}）</button>
+        </li>
+    </ul>
+
+    <button class="newhome-button" style="width: 76%;margin-left: 12%;" id="nextbtn" ng-click="vm.nextbtn()" disabled>提 交</button >
+
+</div>

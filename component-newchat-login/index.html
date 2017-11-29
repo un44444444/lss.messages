@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <base href="/mediaoperation/component-mediaoperation-login/"/>
+    <title></title>
+    <!--angularjs-->
+    <script type="text/javascript" src="https://cdn.bootcss.com/angular.js/1.6.5/angular.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/angular.js/1.6.5/angular-resource.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/angular.js/1.6.5/angular-animate.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/angular.js/1.6.5/angular-cookies.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/angular-ui-router/0.4.2/angular-ui-router.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/angular-cache/4.6.0/angular-cache.js"></script>
+
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+    <script src="http://www.shuwang.info/lib/ocLazyLoad/ocLazyLoad.min.js"></script>
+
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css"/>
+    <script src="http://apps.bdimg.com/libs/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+    <script src="http://cdn.bootcss.com/angular-ui-bootstrap/0.11.2/ui-bootstrap-tpls.js"></script>
+
+    <!--文件上传-->
+    <!--<script src="http://www.shuwang.info/lib/angular-file-upload.min.js"></script>-->
+    <script src="http://www.shuwang.info/lib/ng-file-upload.min.js"></script>
+
+    <!--分页-->
+    <script src="http://www.shuwang.info/lib/pagination/dirPagination.js"></script>
+    <!--click confirm-->
+    <script src="http://www.shuwang.info/lib/ng-confirm-click.js"></script>
+
+    <!--excel 读取-->
+    <!--<script src="http://cdn.bootcss.com/xlsx/0.8.0/xlsx.core.min.js"></script>
+    <script src="frame/xlsx/excelimport.js"></script>
+    <script src="frame/xlsx/FileSaver.js"></script>
+    <script src="frame/xlsx/Export2Excel.js"></script>-->
+
+    <!--map-->
+    <!--<script type="text/javascript"
+            src="http://webapi.amap.com/maps?v=1.3&key=6a087e1cda030f7790274d88af39124b"></script>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/echarts/3.4.0/echarts.min.js'></script>-->
+
+    <!--自定义的js-->
+    <script src="app/config.test.js"></script>
+    <script src="app/app.js"></script>
+    <script src="app/config.common.js"></script>
+
+    <!--component-->
+    <script src="component/login/login.routes.js"></script>
+    <script src="component/login/login.controller.js"></script>
+    <script src="component/login/login-register.controller.js"></script>
+    <script src="component/login/login-ceshi.controller.js"></script>
+    <script src="component/login/login.component.js"></script>
+    <script src="component/login/login.constant.js"></script>
+    <script src="component/login/login-auth.service.js"></script>
+    <script src="component/virtual/virtual.routes.js"></script>
+    <script src="component/virtual/virtual.controller.js"></script>
+    <script src="component/message/message.component.js"></script>
+
+    <!----------------------------------外部引用--------------------------------------------------->
+    <!--工具-->
+    <script src="../app/utils/module.util.js"></script>
+    <script src="../app/utils/util.md5.js"></script>
+    <!--component-common-service-->
+    <script src="../component-common-service/component/cookie.service.js"></script>
+    <script src="../component-common-service/component/cache.service.js"></script>
+    <script src="../component-common-service/component/error.service.js"></script>
+    <!--component-common-loginbyopenid-->
+    <script src="../component-common-loginbyopenid/component/service.loginbyopenid.js"></script>
+    <script src="../component-common-loginbyopenid/component/service.getsecurityuserid.js"></script>
+    <!--component-mediaoperation-service-->
+    <script src="../component-mediaoperation-service/component/security/security-user.service.js"></script>
+    <script src="../component-mediaoperation-service/component/malloffline/malloffline-authdict.service.js"></script>
+    <script src="../component-mediaoperation-service/component/malloffline/malloffline-shopsstaff.service.js"></script>
+    <script src="../component-mediaoperation-service/component/malloffline/malloffline-shopsstaffauth.service.js"></script>
+
+
+    <!--css-->
+    <link rel="stylesheet" type="text/css" href="../css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+    <link rel="stylesheet" type="text/css" href="css/register.css">
+
+
+</head>
+<body ng-app="mediaoperation.login">
+<!--注入点-->
+<div ui-view></div>
+</body>
+</html>

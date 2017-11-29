@@ -1,0 +1,66 @@
+.page {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.page-head {
+    position: absolute;
+    top:0;
+    width: 100%;
+    height: 60px;
+    line-height:60px;
+    text-align: left;
+    background-color: #fAfAfB;
+    border-bottom: 1px inset;
+}
+
+.page-head span {
+    padding-left: 30px;
+    font:20px solid;
+}
+
+.page-body {
+    position: absolute;
+    top:60px;
+    bottom: 200px;
+    width: 100%;
+    height: auto;
+}
+
+.page-foot {
+    position: absolute;
+    text-align: center;
+    bottom: 0;
+    width: 100%;
+    height: 200px;
+    border-top: 1px outset;
+    background: -webkit-linear-gradient(45deg,#FAFAFA, white); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(45deg,#FAFAFA, white); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(45deg,#FAFAFA, white); /* Firefox 3.6 - 15 */
+    background: linear-gradient(45deg,#FAFAFA, white); /* 标准的语法 */
+}
+
+.text {
+    width: 90%;
+    border: none;
+    outline: none;
+    resize: none;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.page-sendarea {
+    width: 100%;
+    height: 20%;
+    text-align: right;
+    padding-right: 60px;
+}
+
+.page-sendarea button{
+    outline: none;
+}
+
+.google_waves:hover {
+    background-color: #F5FFFA;
+}

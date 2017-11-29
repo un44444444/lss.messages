@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <!--设置IE渲染方式默认为最高(可选)-->
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge，chrome=1">
+    <base href="/newchat/"/>
+    <title></title>
+    <!--<link rel="manifest" href="manifest.json">
+    <script src="cordova.js"></script>-->
+    <!--angularjs-->
+    <script type="text/javascript" src="https://cdn.bootcss.com/angular.js/1.6.5/angular.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/angular.js/1.6.5/angular-resource.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/angular.js/1.6.5/angular-animate.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/angular.js/1.6.5/angular-cookies.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/angular-ui-router/0.4.2/angular-ui-router.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/ngStorage/0.3.11/ngStorage.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/angular-cache/4.6.0/angular-cache.js"></script>
+
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+    <script src="http://www.shuwang.info/lib/ocLazyLoad/ocLazyLoad.min.js"></script>
+
+    <!--jquery颜色动画库-->
+    <script src="https://cdn.bootcss.com/jquery-color/2.1.2/jquery.color.js"></script>
+
+    <!--bootstrap4.0需要额外引入popper.js  只有umd的版本能用-->
+    <script src="https://cdn.bootcss.com/popper.js/1.12.5/umd/popper.min.js"></script>
+    <link href="https://cdn.bootcss.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js"></script>
+    <!--bootstrap矢量图标库-->
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!--Google团队的点击水波样式，来源：http://fian.my.id/Waves/-->
+    <link href="https://cdn.bootcss.com/node-waves/0.7.5/waves.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/node-waves/0.7.5/waves.min.js"></script>
+
+    <!--文件上传-->
+    <!--<script src="http://www.shuwang.info/lib/angular-file-upload.min.js"></script>-->
+    <script src="http://www.shuwang.info/lib/ng-file-upload.min.js"></script>
+
+    <!--分页-->
+    <script src="http://www.shuwang.info/lib/pagination/dirPagination.js"></script>
+    <!--click confirm-->
+    <script src="http://www.shuwang.info/lib/ng-confirm-click.js"></script>
+    <!--mqtt-->
+    <script type="text/javascript" src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+
+
+
+    <!--自定义的js 6-->
+    <script src="app/config.test.js"></script>
+    <!--<script src="app/config.production.js"></script>-->
+    <script src="app/app.js"></script>
+    <script src="app/config.menu.js"></script>
+    <script src="app/config.common.js"></script>
+    <!--工具-->
+    <script src="app/utils/module.util.js"></script>
+    <script src="app/utils/util.md5.js"></script>
+    <!--拼音搜索库-->
+    <script type="text/javascript" src="app/dict/pinyin_dict_notone.js"></script>
+    <script type="text/javascript" src="app/dict/pinyin_dict_withtone.js"></script>
+    <script type="text/javascript" src="app/dict/pinyinUtil.js"></script>
+    <!--qrcode生成-->
+    <script src="app/qrcode/jquery.qrcode.js"></script>
+    <script src="app/qrcode/qrcode.js"></script>
+    <script src="app/qrcode/utf.js"></script>
+    <!--3d轮播-->
+    <link rel="stylesheet" type="text/css" href="app/silder/css/slicebox.css">
+    <link rel="stylesheet" type="text/css" href="app/silder/css/custom.css">
+    <script src="app/silder/js/modernizr.custom.46884.js"></script>
+    <script src="app/silder/js/jquery.slicebox.js"></script>
+
+    <!--微信调用-->
+    <!--<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>-->
+    
+
+    <!--component-newchat-login-->
+    <script src="component-newchat-login/component/login/login.routes.js"></script>
+    <script src="component-newchat-login/component/login/login.controller.js"></script>
+    <script src="component-newchat-login/component/login/login-register.controller.js"></script>
+    <script src="component-newchat-login/component/login/login.component.js"></script>
+    <script src="component-newchat-login/component/login/login.constant.js"></script>
+    <script src="component-newchat-login/component/login/login-auth.service.js"></script>
+    <script src="component-newchat-login/component/message/message.component.js"></script>
+
+
+    <!--component-newchat-template-->
+    <script src="component-newchat-template/component/template.routes.js"></script>
+    <script src="component-newchat-template/component/template-topbar.controller.js"></script>
+    <script src="component-newchat-template/component/template-sidebar.controller.js"></script>
+
+
+    <!--公共服务-->
+    <script src="component-common-service/component/cookie.service.js"></script>
+    <script src="component-common-service/component/localstorage.service.js"></script>
+    <script src="component-common-service/component/cache.service.js"></script>
+    <script src="component-common-service/component/error.service.js"></script>
+
+
+    <!--component-newchat-conversation-->
+    <script src="component-newchat-conversation/component/conversation.routes.js"></script>
+    <script src="component-newchat-conversation/component/conversation.controller.js"></script>
+
+
+    <!--component-newchat-groupconversation-->
+    <script src="component-newchat-groupconversation/component/groupconversation.routes.js"></script>
+    <script src="component-newchat-groupconversation/component/groupconversation.controller.js"></script>
+
+
+    <!--component-newchat-buddy-->
+    <script src="component-newchat-buddy/component/buddy.routes.js"></script>
+    <script src="component-newchat-buddy/component/buddy.controller.js"></script>
+
+
+    <!--component-newchat-group-->
+    <script src="component-newchat-group/component/group.routes.js"></script>
+    <script src="component-newchat-group/component/group.controller.js"></script>
+
+
+    <!--component-service-imsdk-->
+    <script src="component-service-imsdk/channel.mqttjs.js"></script>
+    <script src="component-service-imsdk/sdk.core.js"></script>
+    <script src="component-service-imsdk/sdk.im.js"></script>
+    <script src="component-service-imsdk/service.imsdk.js"></script>
+    <script src="component-service-imsdk/function.chat.js"></script>
+
+
+    <!--service-->
+    <script src="component-newchat-service/component/im/mqhp.messge.service.js"></script>
+
+
+    <!--css-->
+    <link id="maincss" rel="stylesheet" type="text/css" href="css/main.css">
+
+    <link rel="stylesheet" type="text/css" href="component-newchat-login/css/login.css">
+    <link rel="stylesheet" type="text/css" href="component-newchat-login/css/loginform.css">
+    <link rel="stylesheet" type="text/css" href="component-newchat-login/css/slider.css">
+    <link rel="stylesheet" type="text/css" href="component-newchat-login/css/register.css">
+
+    <link rel="stylesheet" type="text/css" href="component-newchat-template/css/topbar.css">
+    <link rel="stylesheet" type="text/css" href="component-newchat-template/css/siderbar.css">
+
+    <!--<link rel="stylesheet" type="text/css" href="component-newchat-conversation/css/conversation.css">-->
+
+    <link rel="stylesheet" type="text/css" href="component-newchat-groupconversation/css/groupconversation.css">
+
+    <!--<link rel="stylesheet" type="text/css" href="component-newchat-buddy/css/buddy.css">-->
+
+
+</head>
+<body ng-app="newchat">
+<!--注入点-->
+<div ui-view style="min-width: 1380px"></div>
+</body>
+</html>
