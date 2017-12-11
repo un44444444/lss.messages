@@ -19,7 +19,10 @@ angular.module('newchat', [
 
     'service.imsdk',
     'service.auth',
-    'service.mqhp.message'
+    'service.mqhp.message',
+    'service.mqhp.userchatmsg',
+    'service.mqhp.friend',
+    'service.mqhp.usergroup'
 ])
     .run(
         ['$http','$rootScope', '$state', '$stateParams', '$location','AUTH_EVENTS','POWER','AuthService','CacheFactory', function ($http,$rootScope, $state, $stateParams, $location,AUTH_EVENTS,POWER,AuthService,CacheFactory) {

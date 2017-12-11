@@ -20,10 +20,10 @@
         </ul>
     </div>
 
-    <div class="page-foot">
+    <div class="page-foot" ng-keydown="vm.keydown($event)">
         <textarea rows="4" class="text" ng-model="vm.content"></textarea>
         <div class="page-sendarea">
-            <button class="google_waves" ng-click="vm.sendContent()">发送</button>
+            <button class="google_waves" ng-click="vm.sendContent()" title="确认键发送">发送</button>
         </div>
     </div>
 

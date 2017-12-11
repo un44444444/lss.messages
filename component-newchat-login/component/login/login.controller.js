@@ -5,10 +5,10 @@ angular.module('module.login')
     .controller('LoginController', LoginController)
     .controller('NewfogetController', NewfogetController);
 
-LoginController.$inject = ['$scope','$state','$rootScope','AUTH_EVENTS','HTTP_ERROR','ErrorService','AuthService','CookieService','LocalstorageService','IMSdkService'];
+LoginController.$inject = ['$scope','$state','$rootScope','AUTH_EVENTS','HTTP_ERROR','ErrorService','AuthService','CookieService','LocalstorageService','IMSdkService','MqhpFriendService','MqhpUserchatmsgService'];
 NewfogetController.$inject = ['$scope','$state','$rootScope','$cookieStore','$interval','AUTH_EVENTS','HTTP_ERROR','ErrorService','SecurityuserService','CookieService'];
 
-function LoginController($scope,$state,$rootScope,AUTH_EVENTS,HTTP_ERROR,ErrorService,AuthService,CookieService,LocalstorageService,IMSdkService) {
+function LoginController($scope,$state,$rootScope,AUTH_EVENTS,HTTP_ERROR,ErrorService,AuthService,CookieService,LocalstorageService,IMSdkService,MqhpFriendService,MqhpUserchatmsgService) {
     var vm = this;
     $("title").html("媒体运营");
 
@@ -37,106 +37,15 @@ function LoginController($scope,$state,$rootScope,AUTH_EVENTS,HTTP_ERROR,ErrorSe
 
 
     /*轮播开始*/
-    var Page = (function() {
-
-        var $navArrows = $( '#nav-arrows' ).hide(),
-            $navDots = $( '#nav-dots' ).hide(),
-            $nav = $navDots.children( 'span' ),
-            $shadow = $( '#shadow' ).hide(),
-            slicebox = $( '#sb-slider' ).slicebox( {
-                onReady : function() {
-
-                    if(window.innerWidth < 1370){
-                        $navArrows.hide();
-                        $(".sb-description").each(function () {
-                            $(this).hide();
-                        })
-                    }else {
-                        $navArrows.show();
-                    }
-                    $navDots.show();
-                    $shadow.show();
-
-                },
-                onBeforeChange : function( pos ) {
-
-                    $nav.removeClass( 'nav-dot-current' );
-                    $nav.eq( pos ).addClass( 'nav-dot-current' );
-
-                },
-                orientation : 'r',
-                cuboidsRandom : true,
-                disperseFactor : 30
-            } ),
-
-            init = function() {
-
-                initEvents();
-
-            },
-            initEvents = function() {
-
-                // add navigation events
-                $navArrows.children( ':first' ).on( 'click', function() {
-
-                    slicebox.next();
-                    return false;
-
-                } );
-
-                $navArrows.children( ':last' ).on( 'click', function() {
-
-                    slicebox.previous();
-                    return false;
-
-                } );
-
-                $nav.each( function( i ) {
-
-                    $( this ).on( 'click', function( event ) {
-
-                        var $dot = $( this );
-
-                        if( !slicebox.isActive() ) {
-
-                            $nav.removeClass( 'nav-dot-current' );
-                            $dot.addClass( 'nav-dot-current' );
-
-                        }
-
-                        slicebox.jump( i + 1 );
-                        return false;
-
-                    } );
-
-                } );
-                setInterval(function () {
-                    if(window.innerWidth < 1370){
-                        $navArrows.hide();
-                        $(".sb-description").each(function () {
-                            $(this).hide();
-                        })
-                    }else {
-                        $(".sb-description").each(function () {
-                            $(this).show();
-                        })
-                        $navArrows.show();
-                    }
-                    $navArrows.children( ':first' ).click()
-                },3000)
-
-            };
-
-        return { init : init };
-
-    })();
-
-    Page.init();
+    var newPage = Page();
+    newPage.init();
     /*轮播结束*/
+    vm.login = login;
+    var sidebar_template = {};
 
 
     //*登录按钮*/
-    vm.login = function (user) {
+    function login(user) {
         if(!vm.user.username && !vm.user.password){
             vm.message = "账号密码不能为空";
             vm.messageVisible = true;
@@ -170,6 +79,33 @@ function LoginController($scope,$state,$rootScope,AUTH_EVENTS,HTTP_ERROR,ErrorSe
 
     //初始化菜单列表方法
     function init(userinfo) {
+        /*MqhpFriendService.getFriendList(userinfo.userid).$promise.then(function (friendlist) {
+            for(var i = 0;i < friendlist.length;i++){
+                sidebar_template = {
+                    // name: ,
+                    // imgurl:,
+                    num:0,
+                    sref: "conversation.conversation",
+                    chatid:friendlist[i].chatid,
+                    frienduid:friendlist[i].frienduid
+                }
+            }
+        })
+        MqhpUserchatmsgService.isreadByUid(userinfo.userid,false).$promise.then(function (recentlist) {
+            for(var i = 0;i < recentlist.length;i++){
+                sidebar_template = {
+                    // name: ,
+                    // imgurl:,
+                    num:0,
+                    sref: "conversation.conversation",
+                    chatid:friendlist[i].chatid,
+                    frienduid:friendlist[i].frienduid
+                }
+            }
+            console.log(recentlist[0].messages[0].body)
+        },function () {
+
+        })*/
         if(sidebars_list.conversation.length == 0){
             sidebars_list.conversation = [
                 {
@@ -212,8 +148,7 @@ function LoginController($scope,$state,$rootScope,AUTH_EVENTS,HTTP_ERROR,ErrorSe
         }
         IMSdkService.init();//消息服务初始化
         //订阅聊天室
-        var mqttLoginInfo = {userid:1,groupid:1};
-        var mqttLoginInfo = {userid:1,groupid:1};
+        var mqttLoginInfo = {userchatid:0,groupchatid:1};
         CookieService.putObject('mqttLoginInfo',mqttLoginInfo);
         IMSdkService.login(mqttLoginInfo);//登录订阅消息
         LocalstorageService.setItemObj(userinfo.userid,{

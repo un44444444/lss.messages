@@ -3,12 +3,20 @@
  */
 
 //在界面显示发送和接收的消息
-function addMessage(message,chatid,allchat,css){//chatid即fromid
+/*function addMessage(message,chatid,allchat,css){//chatid即fromid
     var date=new Date();
     var mytime=date.toLocaleTimeString();
     if (!allchat[chatid+''])
         allchat[chatid+'']=new Array();
     allchat[chatid].push({time:mytime, name:message[0],content:message[1], avatar:message[2], css:css});
+    return allchat;
+}*/
+function addMessage(content,chatid,allchat,css){//chatid即fromid
+    var date=new Date();
+    var mytime=date.toLocaleTimeString();
+    if (!allchat[chatid+''])
+        allchat[chatid+'']=new Array();
+    allchat[chatid].push({time:mytime, name:content.name,content:content.content, avatar:content.avatar, css:css});
     return allchat;
 }
 

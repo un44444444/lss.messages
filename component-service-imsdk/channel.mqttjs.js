@@ -48,7 +48,9 @@
             if (!client) {
                 // TODO 错误提示
             }
-            client.subscribe(topic);
+            client.subscribe(topic, null, function(err, granted){
+                console.log("client.subscribe callback(), err=", err, ", granted=", granted);
+            });
             return this;
         }
 

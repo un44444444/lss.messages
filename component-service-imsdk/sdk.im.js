@@ -16,8 +16,9 @@
 
     // 用户登录
     function login(user) {
-        console.log(this);
-        this.setBusinessHandler("im", imMessageHandler);
+        console.log(user);
+        // this.setBusinessHandler("im", imMessageHandler);
+        this.setBusinessHandler(imMessageHandler);
         //
         if (!this.client) {
             // TODO 错误提示
@@ -25,12 +26,12 @@
         }
 
         /*测试用代码*/
-        //好友聊天
-        user.userid ? this.client.subscribe("/im/user/" + user.userid) : {};
+        //好友聊天  topic只能string
+        user.userchatid || user.userchatid == 0 ? this.client.subscribe("/1/" + user.userchatid.toString()) : {};
+        //群组聊天
+        user.groupchatid  || user.groupchatid == 0 ? this.client.subscribe("/2/" + user.groupchatid.toString()) : {};
         //订阅聊天室
         this.client.subscribe("聊天室");
-        //群组聊天
-        user.groupid ? this.client.subscribe("/im/group/" + user.groupid) : {};
         //
 
 
@@ -113,7 +114,10 @@
 
     // 处理收到的聊天消息
     function imMessageHandler(topic, payload) {
+        console.log("ImSdk imMessageHandler topic=",topic,",payload=",payload)
         var message = JSON.parse(payload);
+        console.log("ImSdk imMessageHandler message=",message)
+        /*//废弃掉content-type的chat offline
         var message_type = message.header["content-type"].split(".")[0];
         var content = message.body;
         content["type"] = message.header["content-type"].substring(message_type.length + 1);
@@ -135,7 +139,13 @@
                 break;
             default:
                 console.log("ImSdk allMessageHandler() unknown IM message_type=", message_type);
-        }
+        }*/
+        var topic_parts = topic.split("/");
+        var fromtype = topic_parts[1];
+        var fromid = message.headers.receiver;
+        var content = message.body;
+        content.sender = message.headers.sender;
+        message_handler.onImChatMessage(fromtype, fromid, content);
     }
 
     // 管理所有消息回调处理函数

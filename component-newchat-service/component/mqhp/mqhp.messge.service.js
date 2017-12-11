@@ -6,20 +6,20 @@ angular.module('service.mqhp.message', [
 ])
     .service('MqhpMessageService', MqhpMessageService);
 MqhpMessageService.$inject = [ '$resource','CacheService','CookieService'];
+/*messge : 消息接口 */
 function MqhpMessageService($resource,CacheService,CookieService) {
     //发送消息接口
     this.sendMessage = function (chatid, msgtype, content,success,error) {
-        var resource = $resource(mqhpUrl + "/message ");
-        var date=new Date();
-        var mytime=date.toLocaleTimeString();
+        var resource = $resource(mqhpUrl + "/message");
+        var timestamp = Date.parse(new Date());
         var obj = {
-            "header": {
-                "createtime": mytime,
+            "headers": {
+                "createtime": timestamp,
                 "receiver": chatid,
-                "content_type": "chat." + msgtype,
+                "content_type": msgtype,//1:text 2；image
                 "sender": CookieService.getObject('currentUser').userid,
                 "content_encoding": "json",
-                "content_length": content.length
+                "content_length": JSON.stringify(content).length
             },
             "body": content
         }

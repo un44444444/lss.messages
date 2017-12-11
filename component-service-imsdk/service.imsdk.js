@@ -30,7 +30,7 @@
                 this.init();
             }
             imsdk.login(user);
-            imsdk.subscribeGroup(user);
+            // imsdk.subscribeGroup(user);
             return this;
         }
 

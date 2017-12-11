@@ -30,37 +30,47 @@ function TemplateSidebarController($rootScope,$state,UPDATE_MSG,CookieService,Lo
     var msgobj = LocalstorageService.getItemObj(userid);//当前用户的全部会话
 
 
-
-    IMSdkService.onChatMessage(function(fromtype, fromid, message) {
-        console.log("IMSdkService.onChatMessage() fromtype=", fromtype, ", fromid=", fromid, ", message=", message);
-        getmessage=message.text.split("~&");
-
+    IMSdkService.onChatMessage(function(fromtype, chatid, message) {
+        console.log("IMSdkService.onChatMessage() fromtype=", fromtype, ", chatid=", chatid, ", message=", message);
+        message.body.chatmsgid = message.chatmsgid;
+        message.body.msgid = message.msgid;
+        message.body.status = message.status;
+        message.body.sender = message.sender;
+        message.body.chatid = chatid;
+        getmessage=message.body;
         // 收到好友聊天消息
-        if (fromtype == "chat") {
-            console.log("IMSdkService.onChatMessage() 收到好友聊天消息, fromid=", fromid);
-
-
-            $rootScope.$broadcast(UPDATE_MSG.buddyMsg);
-        }
-        // 收到群组聊天消息
-        else if (fromtype == "group") {
-            console.log("IMSdkService.onChatMessage() 收到群组聊天消息, fromid=", fromid);
+        if (fromtype === "1") {
+            console.log("IMSdkService.onChatMessage() 收到好友聊天消息, chatid=", chatid);
 
             //自己发送的消息样式处理为显示在右侧
-            cssChange();
+            cssChange(message.sender);
 
-            msgobj.group = addMessage(getmessage,fromid,msgobj.group,css);
+            msgobj.buddy = addMessage(getmessage,chatid,msgobj.buddy,css);
+            LocalstorageService.setItemObj(userid,msgobj);//更新存储
+            console.log(LocalstorageService.getItemObj(userid))
+
+
+            $rootScope.$broadcast(UPDATE_MSG.buddyMsg, getmessage);
+        }
+        // 收到群组聊天消息
+        else if (fromtype === "2") {
+            console.log("IMSdkService.onChatMessage() 收到群组聊天消息, chatid=", chatid);
+
+            //自己发送的消息样式处理为显示在右侧
+            cssChange(message.sender);
+
+            msgobj.group = addMessage(getmessage,chatid,msgobj.group,css);
             LocalstorageService.setItemObj(userid,msgobj);//更新存储
 
-            $rootScope.$broadcast(UPDATE_MSG.groupMsg, fromid);
+            $rootScope.$broadcast(UPDATE_MSG.groupMsg, getmessage);
         }
         // 收到聊天室聊天消息
-        else if (fromtype == "chatroom") {
-            console.log("IMSdkService.onChatMessage() 收到聊天室聊天消息, fromid=", fromid);
+        else if (fromtype === "3") {
+            console.log("IMSdkService.onChatMessage() 收到聊天室聊天消息, chatid=", chatid);
 
 
 
-            $rootScope.$broadcast(UPDATE_MSG.chatroomMsg);
+            $rootScope.$broadcast(UPDATE_MSG.chatroomMsg, getmessage);
         }
         else {
             console.log("IMSdkService.onChatMessage() 收到未知类型聊天消息");
@@ -69,8 +79,8 @@ function TemplateSidebarController($rootScope,$state,UPDATE_MSG,CookieService,Lo
     });
 
     //对接收到的消息显示样式处理
-    function cssChange() {
-        if(getmessage[0] == name){
+    function cssChange(sender) {
+        if(sender === userid){
             css = 'messageright';
         }else {
             css = 'messageleft';
