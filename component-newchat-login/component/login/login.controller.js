@@ -5,10 +5,10 @@ angular.module('module.login')
     .controller('LoginController', LoginController)
     .controller('NewfogetController', NewfogetController);
 
-LoginController.$inject = ['$scope','$state','$rootScope','AUTH_EVENTS','HTTP_ERROR','ErrorService','AuthService','CookieService','LocalstorageService','IMSdkService','MqhpFriendService','MqhpUserchatmsgService'];
+LoginController.$inject = ['$scope','$state','$rootScope','AUTH_EVENTS','HTTP_ERROR','ErrorService','AuthService','CookieService','LocalstorageService','IMSdkService','MqhpFriendService','MqhpUsergroupService','MqhpUserchatmsgService','MenuService'];
 NewfogetController.$inject = ['$scope','$state','$rootScope','$cookieStore','$interval','AUTH_EVENTS','HTTP_ERROR','ErrorService','SecurityuserService','CookieService'];
 
-function LoginController($scope,$state,$rootScope,AUTH_EVENTS,HTTP_ERROR,ErrorService,AuthService,CookieService,LocalstorageService,IMSdkService,MqhpFriendService,MqhpUserchatmsgService) {
+function LoginController($scope,$state,$rootScope,AUTH_EVENTS,HTTP_ERROR,ErrorService,AuthService,CookieService,LocalstorageService,IMSdkService,MqhpFriendService,MqhpUsergroupService,MqhpUserchatmsgService,MenuService) {
     var vm = this;
     $("title").html("媒体运营");
 
@@ -41,7 +41,11 @@ function LoginController($scope,$state,$rootScope,AUTH_EVENTS,HTTP_ERROR,ErrorSe
     newPage.init();
     /*轮播结束*/
     vm.login = login;
-    var sidebar_template = {};
+
+    var body = {};//暂时存储解析出的消息body
+    var getmessage = [];//存储接收的解析后消息
+    var css = "messageleft";//初始化消息样式
+    var msgobj = {};//当前用户的全部会话
 
 
     //*登录按钮*/
@@ -69,7 +73,15 @@ function LoginController($scope,$state,$rootScope,AUTH_EVENTS,HTTP_ERROR,ErrorSe
                     username: userinfo.username,
                 })
                 $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-                init(userinfo);
+                // init(userinfo);
+                MenuService.init(userinfo.userid,function () {
+                    IMSdkService.init();//消息服务初始化
+                    //订阅聊天室
+                    var mqttLoginInfo = {friendchatid:0,groupchatid:1,chatroomchatid:'',announcechatid:'',smartCabinetchatid:''};
+                    CookieService.putObject('mqttLoginInfo',mqttLoginInfo);
+                    IMSdkService.login(mqttLoginInfo);//登录订阅消息
+                    $state.go("conversation.blank");
+                })
             }, function (error) {
                 $rootScope.$broadcast(AUTH_EVENTS.loginFailed,error);
             });
@@ -79,34 +91,123 @@ function LoginController($scope,$state,$rootScope,AUTH_EVENTS,HTTP_ERROR,ErrorSe
 
     //初始化菜单列表方法
     function init(userinfo) {
-        /*MqhpFriendService.getFriendList(userinfo.userid).$promise.then(function (friendlist) {
-            for(var i = 0;i < friendlist.length;i++){
-                sidebar_template = {
-                    // name: ,
-                    // imgurl:,
-                    num:0,
-                    sref: "conversation.conversation",
-                    chatid:friendlist[i].chatid,
-                    frienduid:friendlist[i].frienduid
-                }
-            }
-        })
-        MqhpUserchatmsgService.isreadByUid(userinfo.userid,false).$promise.then(function (recentlist) {
-            for(var i = 0;i < recentlist.length;i++){
-                sidebar_template = {
-                    // name: ,
-                    // imgurl:,
-                    num:0,
-                    sref: "conversation.conversation",
-                    chatid:friendlist[i].chatid,
-                    frienduid:friendlist[i].frienduid
-                }
-            }
-            console.log(recentlist[0].messages[0].body)
-        },function () {
+        if(LocalstorageService.getItemObj(userinfo.userid)){
+            msgobj = LocalstorageService.getItemObj(userinfo.userid);//当前用户的全部会话
+        }else {
+            LocalstorageService.setItemObj(userinfo.userid,{
+                buddy:{},
+                group:{},
+                chatroom:{}
+            });//存储全部消息
+            msgobj = LocalstorageService.getItemObj(userinfo.userid);//当前用户的全部会话
+        }
 
-        })*/
-        if(sidebars_list.conversation.length == 0){
+        MqhpFriendService.getFriendList(userinfo.userid).$promise.then(function (friendlist) {
+            for(var i = 0;i < friendlist.length;i++){
+                var sidebar_template = {
+                    name: "第"+i+"个朋友",
+                    imgurl: "/lss.messages/images/1.jpg",
+                    sref: "buddy.buddyinfo",
+                    chatid:friendlist[i].chatid,
+                    frienduid:friendlist[i].frienduid
+                }
+                sidebars_list.buddy.push(sidebar_template);
+            }
+            console.log("好友列表：",sidebars_list.buddy)
+        }).then(function () {
+            MqhpUsergroupService.getGroupList(userinfo.userid).$promise.then(function (grouplist) {
+                for(var i = 0;i < grouplist.length;i++){
+                    var sidebar_template = {
+                        name: "第"+i+"个群组",
+                        imgurl: "/lss.messages/images/1.jpg",
+                        sref: "group.groupinfo",
+                        chatid:grouplist[i].chatid,
+                        groupid:grouplist[i].groupid,
+                        notify:grouplist[i].notify,
+                    }
+                    sidebars_list.group.push(sidebar_template)
+                }
+                console.log("群列表：",sidebars_list.group)
+            });
+        }).then(function () {
+            var i,j,k,n;
+            MqhpUserchatmsgService.isreadByUid(userinfo.userid,false).$promise.then(function (recentlist) {
+                for (i = 0; i < recentlist.length; i++) {
+
+
+
+                    //判断是否好友会话
+                    for(j = 0;j < sidebars_list.buddy.length;j++){
+                        if(recentlist[i].chatid === sidebars_list.buddy[j].chatid){
+                            var sidebar_template = sidebars_list.buddy[j];
+                            sidebar_template.sref = "conversation.conversation";
+                            sidebar_template.num = recentlist[i].messages.length;
+                            sidebars_list.conversation.push(sidebar_template);
+
+                            //更新存储
+                            for(n = 0;n < recentlist[i].messages.length;n++){
+                                updateStorage(recentlist[i].messages[n],userinfo.userid,"buddy")
+                            }
+
+                            break;
+                        }
+                    }
+                    //判断是否是群会话
+                    if(j === sidebars_list.buddy.length){
+
+                        for(k = 0;k < sidebars_list.group.length;k++){
+                            if(recentlist[i].chatid === sidebars_list.group[k].chatid){
+                                var sidebar_template = sidebars_list.group[k];
+                                sidebar_template.sref = "conversation.groupconversation";
+                                sidebar_template.num = recentlist[i].messages.length;
+                                sidebars_list.conversation.push(sidebar_template);
+
+                                //更新存储
+                                for(n = 0;n < recentlist[i].messages.length;n++){
+                                    updateStorage(recentlist[i].messages[n],userinfo.userid,"group");
+                                }
+                                break;
+                            }
+
+                        }
+
+
+                    }
+                }
+                console.log("最近未读会话列表",sidebars_list.conversation)
+                IMSdkService.init();//消息服务初始化
+                //订阅聊天室
+                var mqttLoginInfo = {friendchatid:0,groupchatid:1,chatroomchatid:'',announcechatid:'',smartCabinetchatid:''};
+                CookieService.putObject('mqttLoginInfo',mqttLoginInfo);
+                IMSdkService.login(mqttLoginInfo);//登录订阅消息
+
+                $state.go("conversation.blank");
+
+            },function () {
+
+            })
+        })
+        
+        
+        function updateStorage(messages,userid,type) {
+            if(messages.senduid == userid){
+                css = 'messageright';
+            }else {
+                css = 'messageleft';
+            }
+            body = JSON.parse(messages.body);
+            getmessage = body;
+            getmessage.chatmsgid = messages.chatmsgid;
+            getmessage.msgid = messages.msgid;
+            getmessage.status = messages.status;
+            getmessage.sender = messages.senduid;
+            getmessage.chatid = messages.chatid;
+            msgobj.group = addMessage(getmessage,getmessage.chatid,msgobj[type],css);
+            LocalstorageService.setItemObj(userid,msgobj);//更新存储
+            
+        }
+
+        /*if(sidebars_list.conversation.length == 0){
             sidebars_list.conversation = [
                 {
                     name: "个人最近会话页",
@@ -148,16 +249,11 @@ function LoginController($scope,$state,$rootScope,AUTH_EVENTS,HTTP_ERROR,ErrorSe
         }
         IMSdkService.init();//消息服务初始化
         //订阅聊天室
-        var mqttLoginInfo = {userchatid:0,groupchatid:1};
+        var mqttLoginInfo = {friendchatid:0,groupchatid:1,chatroomchatid:'',announcechatid:'',smartCabinetchatid:''};
         CookieService.putObject('mqttLoginInfo',mqttLoginInfo);
         IMSdkService.login(mqttLoginInfo);//登录订阅消息
-        LocalstorageService.setItemObj(userinfo.userid,{
-            buddy:{},
-            group:{},
-            chatroom:{}
-        });//存储全部消息
 
-        $state.go("conversation.conversation",{userid:userinfo.userid,chatid:sidebars_list.conversation[0].chatid,name:sidebars_list.conversation[0].name});
+        $state.go("conversation.conversation",{userid:userinfo.userid,chatid:sidebars_list.conversation[0].chatid,name:sidebars_list.conversation[0].name});*/
     }
 
 };

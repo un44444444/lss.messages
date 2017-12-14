@@ -3,9 +3,11 @@
  */
 angular.module('module.buddy')
     .controller('BuddyinfoController', BuddyinfoController)
+    .controller('BuddyBlankController', BuddyBlankController)
 ;
 
 BuddyinfoController.$inject = ['$scope','$state','$stateParams','$rootScope','$cookieStore','AUTH_EVENTS','HTTP_ERROR','ErrorService'];
+BuddyBlankController.$inject = [];
 
 function BuddyinfoController($scope,$state,$stateParams,$rootScope,$cookieStore,AUTH_EVENTS,HTTP_ERROR,ErrorService) {
     angular.element(document).ready(function () {
@@ -15,4 +17,8 @@ function BuddyinfoController($scope,$state,$stateParams,$rootScope,$cookieStore,
     })
     var vm = this;
     vm.name = $stateParams.name;//标题名设置
+}
+
+function BuddyBlankController() {
+    var vm = this;
 }

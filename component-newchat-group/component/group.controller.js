@@ -3,9 +3,11 @@
  */
 angular.module('module.group')
     .controller('GroupinfoController', GroupinfoController)
+    .controller('GroupBlankController', GroupBlankController)
 ;
 
 GroupinfoController.$inject = ['$scope','$state','$stateParams','$rootScope','$cookieStore','AUTH_EVENTS','HTTP_ERROR','ErrorService'];
+GroupBlankController.$inject = [];
 
 function GroupinfoController($scope,$state,$stateParams,$rootScope,$cookieStore,AUTH_EVENTS,HTTP_ERROR,ErrorService) {
     angular.element(document).ready(function () {
@@ -15,4 +17,8 @@ function GroupinfoController($scope,$state,$stateParams,$rootScope,$cookieStore,
     })
     var vm = this;
     vm.name = $stateParams.name;//标题名设置
+}
+
+function GroupBlankController() {
+    var vm = this;
 }

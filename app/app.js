@@ -22,7 +22,8 @@ angular.module('newchat', [
     'service.mqhp.message',
     'service.mqhp.userchatmsg',
     'service.mqhp.friend',
-    'service.mqhp.usergroup'
+    'service.mqhp.usergroup',
+    'service.menu'
 ])
     .run(
         ['$http','$rootScope', '$state', '$stateParams', '$location','AUTH_EVENTS','POWER','AuthService','CacheFactory', function ($http,$rootScope, $state, $stateParams, $location,AUTH_EVENTS,POWER,AuthService,CacheFactory) {

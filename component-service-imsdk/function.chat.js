@@ -12,11 +12,21 @@
     return allchat;
 }*/
 function addMessage(content,chatid,allchat,css){//chatid即fromid
-    var date=new Date();
-    var mytime=date.toLocaleTimeString();
+    // var date=new Date();
+    // var mytime=date.toLocaleTimeString();
+    var mytime = new Date(parseInt(content.createtime)).toLocaleString();
     if (!allchat[chatid+''])
         allchat[chatid+'']=new Array();
-    allchat[chatid].push({time:mytime, name:content.name,content:content.content, avatar:content.avatar, css:css});
+    allchat[chatid].push({
+        chatmsgid:content.chatmsgid,
+        time:mytime,
+        content:content.content,
+        msgid:content.msgid,
+        name:content.name,
+        sender:content.sender,
+        avatar:content.avatar,
+        css:css
+    });
     return allchat;
 }
 

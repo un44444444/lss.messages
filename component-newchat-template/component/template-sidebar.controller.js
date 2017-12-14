@@ -20,6 +20,8 @@ function TemplateSidebarController($rootScope,$state,UPDATE_MSG,CookieService,Lo
     vm.sidebars = sidebars_list[$state.current.name.split('.')[0]];//菜单内容填充
     vm.userid = userid;
     vm.state = $state;//路由活跃样式控制
+    vm.go = go;//点击跳转路由
+    var activesiderbar = CookieService.getObject("activesiderbar");//获取当前活跃页面
     if(!LocalstorageService.getItemObj(userid)){
         LocalstorageService.setItemObj(userid,{
             buddy:{},
@@ -37,6 +39,7 @@ function TemplateSidebarController($rootScope,$state,UPDATE_MSG,CookieService,Lo
         message.body.status = message.status;
         message.body.sender = message.sender;
         message.body.chatid = chatid;
+        message.body.createtime = message.createtime;
         getmessage=message.body;
         // 收到好友聊天消息
         if (fromtype === "1") {
@@ -47,7 +50,6 @@ function TemplateSidebarController($rootScope,$state,UPDATE_MSG,CookieService,Lo
 
             msgobj.buddy = addMessage(getmessage,chatid,msgobj.buddy,css);
             LocalstorageService.setItemObj(userid,msgobj);//更新存储
-            console.log(LocalstorageService.getItemObj(userid))
 
 
             $rootScope.$broadcast(UPDATE_MSG.buddyMsg, getmessage);
@@ -85,5 +87,52 @@ function TemplateSidebarController($rootScope,$state,UPDATE_MSG,CookieService,Lo
         }else {
             css = 'messageleft';
         }
+    }
+
+    //点击跳转路由
+    function go(siderbar) {
+        switch (siderbar.type){
+            case "recent_buddy" :
+                activesiderbar.recent = siderbar;
+                CookieService.putObject("activesiderbar",activesiderbar);
+                $state.go(siderbar.sref,{
+                    userid:siderbar.userid,
+                    chatid:siderbar.chatid,
+                    name:siderbar.name,
+                    biztype:siderbar.biztype,
+                });
+                break;
+            case "recent_group" :
+                activesiderbar.recent = siderbar;
+                CookieService.putObject("activesiderbar",activesiderbar);
+                $state.go(siderbar.sref,{
+                    groupid:siderbar.groupid,
+                    chatid:siderbar.chatid,
+                    name:siderbar.name,
+                    biztype:siderbar.biztype,
+                });
+                break;
+            case "buddy" :
+                activesiderbar.buddy = siderbar;
+                CookieService.putObject("activesiderbar",activesiderbar);
+                $state.go(siderbar.sref,{
+                    userid:siderbar.userid,
+                    chatid:siderbar.chatid,
+                    name:siderbar.name,
+                });
+                break;
+            case "group" :
+                activesiderbar.group = siderbar;
+                CookieService.putObject("activesiderbar",activesiderbar);
+                $state.go(siderbar.sref,{
+                    groupid:siderbar.groupid,
+                    chatid:siderbar.chatid,
+                    name:siderbar.name,
+                    notify:siderbar.notify,
+                });
+                break;
+
+        }
+
     }
 }

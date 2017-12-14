@@ -17,7 +17,8 @@ function GroupconversationController($scope,$rootScope,$state,$stateParams,Cooki
     });
     var vm = this;
     var pagebody = document.getElementById('pagebody');//自动滚动到最新信息设置参数
-    var userid = $stateParams.userid;
+    var groupid = $stateParams.groupid;
+    var userid = CookieService.getObject("currentUser").userid;
     var name = CookieService.getObject("currentUser").username;//当前账号用户名
     var chatid = $stateParams.chatid;
     var getContentBuffer = "";//设置发送消息内容用于发送
@@ -35,7 +36,11 @@ function GroupconversationController($scope,$rootScope,$state,$stateParams,Cooki
     $scope.$on(UPDATE_MSG.groupMsg,function (event,info) {
         if(chatid === info.chatid){
             $scope.$apply(function(){
-                vm.messages = LocalstorageService.getItemObj(userid).group[chatid];
+                var newmsglist = LocalstorageService.getItemObj(userid).group[chatid];
+                vm.messages ? vm.messages.push(newmsglist[newmsglist.length-1]) : function () {
+                    vm.messages = [];
+                    vm.messages.push(newmsglist[newmsglist.length-1]);
+                }();
                 //更新消息游标
                 var current_time = Date.parse(new Date());
                 var updateinfo = {
@@ -67,7 +72,7 @@ function GroupconversationController($scope,$rootScope,$state,$stateParams,Cooki
             content:vm.content,
             avatar:avatar
         };
-        MqhpMessageService.sendMessage(chatid,1, getContentBuffer);//参数chatid, msgtype（1:text 2；image）, content
+        MqhpMessageService.sendMessage(chatid,1, getContentBuffer);//参数chatid, msgtype（1:text 2:image 3:语音）, content
         vm.content="";
 
     }

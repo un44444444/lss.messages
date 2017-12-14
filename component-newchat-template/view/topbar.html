@@ -12,17 +12,17 @@
                 </li>
                 <li>
                     <div class="top-li">
-                        <a ui-sref="conversation.conversation({userid:vm.userid,chatid:vm.conversation.chatid,name:vm.conversation.name})" title="最近通讯"><i id="default" class="fa fa-comments" ng-class="{currenttopbar:vm.state.includes('conversation')}"></i></a>
+                        <a ng-click="vm.gorecent()" title="最近通讯"><i id="default" class="fa fa-comments" ng-class="{currenttopbar:vm.state.includes('conversation')}"></i></a>
                     </div>
                 </li>
                 <li>
                     <div class="top-li">
-                        <a ui-sref="buddy.buddyinfo({userid:vm.userid,chatid:vm.buddy.chatid,name:vm.buddy.name})" title="好友列表"><i class="fa fa-user-plus" ng-class="{currenttopbar:vm.state.includes('buddy')}"></i></a>
+                        <a ng-click="vm.gobuddy()" title="好友列表"><i class="fa fa-user-plus" ng-class="{currenttopbar:vm.state.includes('buddy')}"></i></a>
                     </div>
                 </li>
                 <li>
                     <div class="top-li">
-                        <a ui-sref="group.groupinfo({userid:vm.userid,chatid:vm.group.chatid,name:vm.group.name})" title="群组列表"><i class="fa fa-users" ng-class="{currenttopbar:vm.state.includes('group')}"></i></a>
+                        <a ng-click="vm.gogroup()" title="群组列表"><i class="fa fa-users" ng-class="{currenttopbar:vm.state.includes('group')}"></i></a>
                     </div>
                 </li>
             </ul>

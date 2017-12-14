@@ -27,11 +27,15 @@
 
         /*测试用代码*/
         //好友聊天  topic只能string
-        user.userchatid || user.userchatid == 0 ? this.client.subscribe("/1/" + user.userchatid.toString()) : {};
+        user.friendchatid || user.friendchatid == 0 ? this.client.subscribe("/1/" + user.friendchatid.toString()) : {};
         //群组聊天
         user.groupchatid  || user.groupchatid == 0 ? this.client.subscribe("/2/" + user.groupchatid.toString()) : {};
         //订阅聊天室
-        this.client.subscribe("聊天室");
+        user.groupchatid  || user.groupchatid == 0 ? this.client.subscribe("/3/" + user.chatroomchatid.toString()) : {};
+        //订阅公告
+        user.groupchatid  || user.groupchatid == 0 ? this.client.subscribe("/4/" + user.announcechatid.toString()) : {};
+        //订阅只能立柜
+        user.groupchatid  || user.groupchatid == 0 ? this.client.subscribe("/5/" + user.smartCabinetchatid.toString()) : {};
         //
 
 
@@ -145,6 +149,7 @@
         var fromid = message.headers.receiver;
         var content = message.body;
         content.sender = message.headers.sender;
+        content.createtime = message.headers.createtime;
         message_handler.onImChatMessage(fromtype, fromid, content);
     }
 

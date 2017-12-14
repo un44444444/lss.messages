@@ -6,8 +6,8 @@ angular.module('module.template')
 ;
 
 // Topbar 控制器
-TemplateTopbarController.$inject = ['$state','CookieService'];
-function TemplateTopbarController($state,CookieService) {
+TemplateTopbarController.$inject = ['$state','CookieService','MenuService'];
+function TemplateTopbarController($state,CookieService,MenuService) {
     console.log("进入topbar控制器")
     var vm = this;
 
@@ -15,6 +15,9 @@ function TemplateTopbarController($state,CookieService) {
     var init = init();//初始化菜单列表
     vm.state = $state;//css点击样式处理
     vm.myinfo = myinfo;//点击个人信息
+    vm.gorecent = gorecent;//跳转最近通讯
+    vm.gobuddy = gobuddy;//跳转好友列表
+    vm.gogroup = gogroup;//跳转群组列表
 
     function myinfo() {
         vm.loginformVisible = true;
@@ -22,48 +25,52 @@ function TemplateTopbarController($state,CookieService) {
 
     //初始化菜单列表方法
     function init() {
-        if(sidebars_list.conversation.length == 0){
-            sidebars_list.conversation = [
-                {
-                    name: "个人最近会话页",
-                    imgurl:"/lss.messages/images/1.jpg",
-                    num:0,
-                    sref: "conversation.conversation",
-                    chatid:0
-                },
-                {
-                    name: "群组最近会话页",
-                    imgurl:"/lss.messages/images/2.jpg",
-                    num:1,
-                    sref: "conversation.groupconversation",
-                    chatid:1
-                },
-            ];
+            MenuService.init(vm.userid,function () {
+                console.log("更新siderbar",sidebars_list)
+            })
+    }
+
+    //跳转最近通讯
+    function gorecent() {
+        if(CookieService.getObject("activesiderbar").recent.sref){
+            var aim = CookieService.getObject("activesiderbar").recent;
+            $state.go(aim.sref,{
+                userid:vm.userid,
+                chatid:aim.chatid,
+                name:aim.name,
+                biztype:aim.biztype
+            })
+        }else {
+            $state.go("conversation.blank");
         }
-        if(sidebars_list.buddy.length == 0){
-            sidebars_list.buddy =  [
-                {
-                    name: "好友信息",
-                    imgurl:"/lss.messages/images/3.jpg",
-                    num:2,
-                    sref: "buddy.buddyinfo",
-                    chatid:2
-                },
-            ];
+    }
+
+    //跳转好友列表
+    function gobuddy() {
+        if(CookieService.getObject("activesiderbar").buddy.sref){
+            var aim = CookieService.getObject("activesiderbar").buddy;
+            $state.go(aim.sref,{
+                userid:vm.userid,
+                chatid:aim.chatid,
+                name:aim.name,
+            })
+        }else {
+            $state.go("buddy.blank");
         }
-        if(sidebars_list.group.length == 0){
-            sidebars_list.group =  [
-                {
-                    name: "群信息",
-                    imgurl:"/lss.messages/images/4.jpg",
-                    num:3,
-                    sref: "group.groupinfo",
-                    chatid:3
-                },
-            ];
+    }
+
+    //跳转群组列表
+    function gogroup() {
+        if(CookieService.getObject("activesiderbar").group.sref){
+            var aim = CookieService.getObject("activesiderbar").group;
+            $state.go(aim.sref,{
+                groupid:vm.groupid,
+                chatid:aim.chatid,
+                name:aim.name,
+                notify:aim.notify,
+            })
+        }else {
+            $state.go("group.blank");
         }
-        vm.conversation = sidebars_list.conversation[0];
-        vm.buddy = sidebars_list.buddy[0];
-        vm.group = sidebars_list.group[0];
     }
 }
