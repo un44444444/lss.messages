@@ -21,6 +21,14 @@ angular.module('module.login')
         groupMsg:"group-msg",
         chatroomMsg:"chatroom-msg",
     })
+    /*广播消息更新siderbarlist*/
+    .constant('UPDATE_SIDERBAR', {
+        siderbarList:"siderbar-list",
+    })
+    /*广播消息更新topbartruenum*/
+    .constant('UPDATE_TOPBAR', {
+        topbarTruenum:"topbar-truenum",
+    })
     /*权限*/
     .value('POWER', {
         default: '*'

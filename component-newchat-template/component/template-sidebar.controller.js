@@ -3,8 +3,8 @@ angular.module('module.template')
 ;
 
 // Sidebar 控制器
-TemplateSidebarController.$inject = ['$rootScope','$state','UPDATE_MSG','CookieService','LocalstorageService','IMSdkService'];
-function TemplateSidebarController($rootScope,$state,UPDATE_MSG,CookieService,LocalstorageService,IMSdkService) {
+TemplateSidebarController.$inject = ['$scope','$rootScope','$state','UPDATE_MSG','CookieService','LocalstorageService','IMSdkService','UPDATE_SIDERBAR','UPDATE_TOPBAR'];
+function TemplateSidebarController($scope,$rootScope,$state,UPDATE_MSG,CookieService,LocalstorageService,IMSdkService,UPDATE_SIDERBAR,UPDATE_TOPBAR) {
     console.log("进入siderbar控制器")
     angular.element(document).ready(function () {
         /*点击水波效果控制*/
@@ -21,6 +21,7 @@ function TemplateSidebarController($rootScope,$state,UPDATE_MSG,CookieService,Lo
     vm.userid = userid;
     vm.state = $state;//路由活跃样式控制
     vm.go = go;//点击跳转路由
+    vm.close = close;//关闭会话
     var activesiderbar = CookieService.getObject("activesiderbar");//获取当前活跃页面
     if(!LocalstorageService.getItemObj(userid)){
         LocalstorageService.setItemObj(userid,{
@@ -34,6 +35,44 @@ function TemplateSidebarController($rootScope,$state,UPDATE_MSG,CookieService,Lo
 
     IMSdkService.onChatMessage(function(fromtype, chatid, message) {
         console.log("IMSdkService.onChatMessage() fromtype=", fromtype, ", chatid=", chatid, ", message=", message);
+
+        //增加提示消息数目
+        var needupdatestate = ["conversation.conversation","conversation.groupconversation"];
+        var needupdatestatus = false;
+        for(var i = 0;i < needupdatestate.length;i++){
+            if($state.current.name == needupdatestate[i]){
+                needupdatestatus = true;
+            }
+        }
+        if((chatid != $state.params.chatid) && needupdatestatus){
+            for(var i = 0;i < sidebars_list.conversation.length;i++){
+                if(sidebars_list.conversation[i].chatid.toString() == chatid){
+                    sidebars_list.conversation[i].num += 1;
+                    sidebars_list.conversation[i].truenum += 1;
+                    console.log(sidebars_list[$state.current.name.split('.')[0]])
+                    $scope.$apply(function () {
+                        vm.sidebars = sidebars_list[$state.current.name.split('.')[0]];
+                    })
+                    //广播更新topbarTruenum
+                    $rootScope.$broadcast(UPDATE_TOPBAR.topbarTruenum);
+                    break;
+                }
+            }
+        }else if(!needupdatestatus){
+            for(var i = 0;i < sidebars_list.conversation.length;i++){
+                if(sidebars_list.conversation[i].chatid == chatid){
+                    sidebars_list.conversation[i].num += 1;
+                    sidebars_list.conversation[i].truenum += 1;
+                    $scope.$apply(function () {
+                        vm.sidebars = sidebars_list[$state.current.name.split('.')[0]];
+                    })
+                    //广播更新topbarTruenum
+                    $rootScope.$broadcast(UPDATE_TOPBAR.topbarTruenum);
+                    break;
+                }
+            }
+        }
+
         message.body.chatmsgid = message.chatmsgid;
         message.body.msgid = message.msgid;
         message.body.status = message.status;
@@ -135,4 +174,22 @@ function TemplateSidebarController($rootScope,$state,UPDATE_MSG,CookieService,Lo
         }
 
     }
+
+    function close(index) {
+        console.log(index);
+        //TODO
+    }
+
+    //接收广播更新sidebars_list
+    $scope.$on(UPDATE_SIDERBAR.siderbarList,function (event,info) {
+        console.log(info)
+        for(var i = 0;i < sidebars_list.conversation.length;i++){
+            if(sidebars_list.conversation[i].chatid == info.chatid){
+                sidebars_list.conversation[i].num = 0;
+                sidebars_list.conversation[i].truenum = 0;
+                vm.sidebars = sidebars_list[$state.current.name.split('.')[0]];
+                break;
+            }
+        }
+    })
 }

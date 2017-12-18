@@ -13,6 +13,7 @@
                 <li>
                     <div class="top-li">
                         <a ng-click="vm.gorecent()" title="最近通讯"><i id="default" class="fa fa-comments" ng-class="{currenttopbar:vm.state.includes('conversation')}"></i></a>
+                        <div class="truenum" ng-hide="vm.truenum === 0 || !vm.truenum">{{vm.truenum}}</div>
                     </div>
                 </li>
                 <li>

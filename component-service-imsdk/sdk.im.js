@@ -25,30 +25,23 @@
             console.log("client not init.");
         }
 
-        /*测试用代码*/
-        //好友聊天  topic只能string
-        user.friendchatid || user.friendchatid == 0 ? this.client.subscribe("/1/" + user.friendchatid.toString()) : {};
-        //群组聊天
-        user.groupchatid  || user.groupchatid == 0 ? this.client.subscribe("/2/" + user.groupchatid.toString()) : {};
-        //订阅聊天室
-        user.groupchatid  || user.groupchatid == 0 ? this.client.subscribe("/3/" + user.chatroomchatid.toString()) : {};
-        //订阅公告
-        user.groupchatid  || user.groupchatid == 0 ? this.client.subscribe("/4/" + user.announcechatid.toString()) : {};
-        //订阅只能立柜
-        user.groupchatid  || user.groupchatid == 0 ? this.client.subscribe("/5/" + user.smartCabinetchatid.toString()) : {};
-        //
-
 
         /*正式设计代码*/
-        /*for (var i = 0; i < user.useridList; i++) {
-            this.client.subscribe("/im/user/" + user.useridList[i]);
+        for (var i = 0; i < user.friendchatidList.length; i++) {
+            this.client.subscribe("/1/" + user.friendchatidList[i]);
+        }
+        //群组聊天
+        for (var i = 0;i  < user.groupchatidList.length; i++) {
+            this.client.subscribe("/2/" + user.groupchatidList[i]);
         }
         //订阅聊天室
-        this.client.subscribe("聊天室");
-        //群组聊天
-        for (var j = 0; j < user.groupidList; j++) {
-            this.client.subscribe("/im/group/" + user.useridList[j]);
-        }*/
+        for (var i = 0; i < user.chatroomchatidList.length; i++) {
+            this.client.subscribe("/3/" + user.chatroomchatidList[i]);
+        }
+        //订阅公告
+        for (var i = 0; i < user.chatroomchatidList.length; i++) {
+            this.client.subscribe("/4/" + user.announcechatidList[i]);
+        }
         //
         return this;
     }

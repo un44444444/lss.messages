@@ -13,6 +13,10 @@ function MenuService(CookieService,LocalstorageService,MqhpFriendService,MqhpUse
     var css = "messageleft";//初始化消息样式
     var msgobj = {};//当前用户的全部会话
     var hasrun = false;//标识该初始化菜单未执行
+    var friendchatidList = [];//存储好友会话chatid用于订阅
+    var groupchatidList = [];//存储群组会话chatid用于订阅
+    var chatroomchatidList = [];//存储聊天室会话chatid用于订阅
+    var announcechatidList = [];//存储公告会话chatid用于订阅
 
     this.init = function (userid,func) {
         if(LocalstorageService.getItemObj(userid)){
@@ -32,6 +36,7 @@ function MenuService(CookieService,LocalstorageService,MqhpFriendService,MqhpUse
 
             MqhpFriendService.getFriendList(userid).$promise.then(function (friendlist) {
                 for(var i = 0;i < friendlist.length;i++){
+                    friendchatidList.push(friendlist[i].chatid);
                     var sidebar_template = {
                         name: "第"+i+"个朋友",
                         imgurl: "/lss.messages/images/1.jpg",
@@ -46,6 +51,7 @@ function MenuService(CookieService,LocalstorageService,MqhpFriendService,MqhpUse
             }).then(function () {
                 MqhpUsergroupService.getGroupList(userid).$promise.then(function (grouplist) {
                     for(var i = 0;i < grouplist.length;i++){
+                        groupchatidList.push(grouplist[i].chatid);
                         var sidebar_template = {
                             name: "第"+i+"个群组",
                             imgurl: "/lss.messages/images/1.jpg",
@@ -78,6 +84,7 @@ function MenuService(CookieService,LocalstorageService,MqhpFriendService,MqhpUse
                                 sidebar_template.sref = "conversation.conversation";
                                 sidebar_template.biztype = 1;
                                 sidebar_template.num = recentlist[i].chatMessages.length;
+                                sidebar_template.truenum = recentlist[i].chatMessages.length;
                                 sidebar_template.type = "recent_buddy";
                                 sidebars_list.conversation.push(sidebar_template);
 
@@ -103,6 +110,7 @@ function MenuService(CookieService,LocalstorageService,MqhpFriendService,MqhpUse
                                     sidebar_template.sref = "conversation.groupconversation";
                                     sidebar_template.biztype = 2;
                                     sidebar_template.num = recentlist[i].chatMessages.length;
+                                    sidebar_template.truenum = recentlist[i].chatMessages.length;
                                     sidebar_template.type = "recent_group";
                                     sidebars_list.conversation.push(sidebar_template);
 
@@ -129,7 +137,7 @@ function MenuService(CookieService,LocalstorageService,MqhpFriendService,MqhpUse
                     }
                     hasrun = true;//标识菜单初始化完成
                     if(typeof func == "function"){
-                        return func();
+                        return func(friendchatidList,groupchatidList,chatroomchatidList,announcechatidList);
                     }
 
                 },function () {
@@ -143,7 +151,7 @@ function MenuService(CookieService,LocalstorageService,MqhpFriendService,MqhpUse
 
 
     function updateStorage(chatid,messages,userid,type) {
-        console.log(messages)
+        // console.log(messages)
         if(messages.message.senduid == userid){
             css = 'messageright';
         }else {
@@ -157,7 +165,7 @@ function MenuService(CookieService,LocalstorageService,MqhpFriendService,MqhpUse
         getmessage.createtime = messages.message.createtime;
         getmessage.status = messages.status;
         getmessage.sender = messages.message.senduid;
-        console.log("menuService getmessage=",getmessage)
+        // console.log("menuService getmessage=",getmessage)
 
         if(msgobj[type][chatid.toString()]){
             //超过99条存储信息处理
@@ -178,6 +186,6 @@ function MenuService(CookieService,LocalstorageService,MqhpFriendService,MqhpUse
 
 
         }
-        console.log(LocalstorageService.getItemObj(userid))
+        // console.log(LocalstorageService.getItemObj(userid))
     }
 }
