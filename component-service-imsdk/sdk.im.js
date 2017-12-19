@@ -17,7 +17,6 @@
     // 用户登录
     function login(user) {
         console.log(user);
-        // this.setBusinessHandler("im", imMessageHandler);
         this.setBusinessHandler(imMessageHandler);
         //
         if (!this.client) {
@@ -59,6 +58,7 @@
         return this;
     }
 
+    /*不直连mqtt发消息，改用德垚接口发消息，发布topic规则更改
     // 发布用户聊天消息
     function sendFriendMessage(friendid, msgtype, content) {
         if (!this.client) {
@@ -107,36 +107,14 @@
         console.log("ImSdk sendGroupMessage(), topic=", topic);
         this.client.publish(topic, JSON.stringify(message));
         return this;
-    }
+    }*/
 
     // 处理收到的聊天消息
     function imMessageHandler(topic, payload) {
         console.log("ImSdk imMessageHandler topic=",topic,",payload=",payload)
         var message = JSON.parse(payload);
         console.log("ImSdk imMessageHandler message=",message)
-        /*//废弃掉content-type的chat offline
-        var message_type = message.header["content-type"].split(".")[0];
-        var content = message.body;
-        content["type"] = message.header["content-type"].substring(message_type.length + 1);
-        //
-        var topic_parts = topic.split("/");
-        var fromtype = topic_parts[2];
-        var fromid = topic_parts[3];
-        //
-        switch (message_type) {
-            case "chat":
-                if (message_handler.onImChatMessage) {
-                    message_handler.onImChatMessage(fromtype, fromid, content);
-                }
-                break;
-            case "offline":
-                if (message_handler.onImOfflineMessage) {
-                    message_handler.onImOfflineMessage(fromtype, fromid, content);
-                }
-                break;
-            default:
-                console.log("ImSdk allMessageHandler() unknown IM message_type=", message_type);
-        }*/
+
         var topic_parts = topic.split("/");
         var fromtype = topic_parts[1];
         var fromid = message.headers.receiver;

@@ -165,7 +165,6 @@ function MenuService(CookieService,LocalstorageService,MqhpFriendService,MqhpUse
         getmessage.createtime = messages.message.createtime;
         getmessage.status = messages.status;
         getmessage.sender = messages.message.senduid;
-        // console.log("menuService getmessage=",getmessage)
 
         if(msgobj[type][chatid.toString()]){
             //超过99条存储信息处理
@@ -186,6 +185,5 @@ function MenuService(CookieService,LocalstorageService,MqhpFriendService,MqhpUse
 
 
         }
-        // console.log(LocalstorageService.getItemObj(userid))
     }
 }
