@@ -178,6 +178,7 @@ function TemplateSidebarController($scope,$rootScope,$state,UPDATE_MSG,CookieSer
     function close(index) {
         console.log(index);
         //TODO
+        alert("暂时没做")
     }
 
     //接收广播更新sidebars_list

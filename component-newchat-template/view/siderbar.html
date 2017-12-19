@@ -4,7 +4,7 @@
             <li ng-repeat="siderbar in vm.sidebars" ui-sref-active="currentsiderbar" ng-class="{currentsiderbar:vm.state.is(siderbar.sref) && (vm.state.params.chatid === siderbar.chatid.toString())}">
                 <div class="li-img">
                     <img ng-src="{{siderbar.imgurl}}">
-                    <div class="main-prompt" ng-hide="siderbar.num === 0 || !siderbar.num">{{siderbar.num}}</div>
+                    <div class="main-prompt" ng-hide="siderbar.num === 0 || !siderbar.num">{{siderbar.num | numFilter}}</div>
                 </div>
                 <div class="menu-name">{{siderbar.name}}</div>
                 <div class="menu-close" ng-click="vm.go(siderbar)">
