@@ -33,8 +33,8 @@ function TemplateSidebarController($scope,$rootScope,$state,UPDATE_MSG,CookieSer
     var msgobj = LocalstorageService.getItemObj(userid);//当前用户的全部会话
 
 
-    IMSdkService.onChatMessage(function(fromtype, chatid, message) {
-        console.log("IMSdkService.onChatMessage() fromtype=", fromtype, ", chatid=", chatid, ", message=", message);
+    IMSdkService.onChatMessage(function(platformtype,fromtype, chatid, message) {
+        console.log("IMSdkService.onChatMessage() platformtype=",platformtype,",fromtype=", fromtype, ", chatid=", chatid, ", message=", message);
 
         //增加提示消息数目
         var needupdatestate = ["conversation.conversation","conversation.groupconversation"];

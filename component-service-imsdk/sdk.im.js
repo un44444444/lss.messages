@@ -16,9 +16,7 @@
 
     // 用户登录
     function login(user) {
-        console.log(user);
-        // this.setBusinessHandler("im", imMessageHandler);
-        this.setBusinessHandler(imMessageHandler);
+        this.setBusinessHandler(user.platformtype, imMessageHandler);//platformtype:消息系统0；mall外卖到店1；桌媒2；智能立柜3
         //
         if (!this.client) {
             // TODO 错误提示
@@ -27,20 +25,22 @@
 
 
         /*正式设计代码*/
+        //topic默认为为添加会话时候三个参数组合：“/”+platform+”/”+ biztype+”/”+biztoutid     platform：0消息系统
+        //好友连天
         for (var i = 0; i < user.friendchatidList.length; i++) {
-            this.client.subscribe("/1/" + user.friendchatidList[i]);
+            this.client.subscribe("/0/1/" + user.friendchatidList[i]);
         }
         //群组聊天
         for (var i = 0;i  < user.groupchatidList.length; i++) {
-            this.client.subscribe("/2/" + user.groupchatidList[i]);
+            this.client.subscribe("/0/2/" + user.groupchatidList[i]);
         }
         //订阅聊天室
         for (var i = 0; i < user.chatroomchatidList.length; i++) {
-            this.client.subscribe("/3/" + user.chatroomchatidList[i]);
+            this.client.subscribe("/0/3/" + user.chatroomchatidList[i]);
         }
         //订阅公告
         for (var i = 0; i < user.chatroomchatidList.length; i++) {
-            this.client.subscribe("/4/" + user.announcechatidList[i]);
+            this.client.subscribe("/0/4/" + user.announcechatidList[i]);
         }
         //
         return this;
@@ -115,21 +115,22 @@
         var message = JSON.parse(payload);
         console.log("ImSdk imMessageHandler message=",message)
         var topic_parts = topic.split("/");
-        var fromtype = topic_parts[1];
+        var platformtype = topic_parts[1]
+        var fromtype = topic_parts[2];
         var fromid = message.headers.receiver;
         var content = message.body;
         content.sender = message.headers.sender;
         content.createtime = message.headers.createtime;
-        message_handler.onImChatMessage(fromtype, fromid, content);
+        message_handler.onImChatMessage(platformtype,fromtype, fromid, content);
     }
 
     // 管理所有消息回调处理函数
     var message_handler = {
         // IM
-        onImChatMessage: function (fromtype, fromid, message) {
-            console.log("ImSdk onImChatMessage()");
+        onImChatMessage: function (platformtype,fromtype, fromid, message) {
+            console.log("ImSdk onImChatMessage()",message);
         },
-        onImOfflineMessage: function (fromtype, fromid, message) {
+        onImOfflineMessage: function (platformtype,fromtype, fromid, message) {
             console.log("ImSdk onImOfflineMessage()");
         },
         // Cupboard

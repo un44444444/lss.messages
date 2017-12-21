@@ -24,22 +24,27 @@
         }
 
 
-        this.setBusinessHandler = function (handler_func) {
-            business_handler = handler_func;
+        this.setBusinessHandler = function (platformtype,handler_func) {
+            business_handler [platformtype] = handler_func;
         }
     }
 
-    // var business_handler = {};
-    var business_handler;
+    var business_handler = {};
+    // var business_handler;
 
     // 收到消息后，分拣给各个回调处理函数
     function allMessageHandler(topic, payload) {
         console.log("MessageSdk allMessageHandler(), topic=", topic,",payload=",payload);
         var topic_parts = topic.split("/");
-        var business_type = topic_parts[1];
-        // 已注册业务的消息
-        console.log(topic_parts)
-        var handler_func = business_handler;
-        handler_func(topic, payload);
+        var platformtype = topic_parts[1]
+        //已注册业务的消息
+        if (business_handler [platformtype]) {
+            var handler_func = business_handler [platformtype];
+            handler_func(topic, payload);
+        }
+        //未知业务消息
+        else {
+            console.log("MessageSdk allMessageHandler（）unknown topic = ", topic);
+        }
     }
 })(window);

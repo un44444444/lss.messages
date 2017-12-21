@@ -36,7 +36,7 @@ function MenuService(CookieService,LocalstorageService,MqhpFriendService,MqhpUse
 
             MqhpFriendService.getFriendList(userid).$promise.then(function (friendlist) {
                 for(var i = 0;i < friendlist.length;i++){
-                    friendchatidList.push(friendlist[i].chatid);
+                    friendchatidList.push(friendlist[i].ownuid);
                     var sidebar_template = {
                         name: "第"+i+"个朋友",
                         imgurl: "/lss.messages/images/1.jpg",
@@ -51,7 +51,7 @@ function MenuService(CookieService,LocalstorageService,MqhpFriendService,MqhpUse
             }).then(function () {
                 MqhpUsergroupService.getGroupList(userid).$promise.then(function (grouplist) {
                     for(var i = 0;i < grouplist.length;i++){
-                        groupchatidList.push(grouplist[i].chatid);
+                        groupchatidList.push(grouplist[i].groupid);
                         var sidebar_template = {
                             name: "第"+i+"个群组",
                             imgurl: "/lss.messages/images/1.jpg",

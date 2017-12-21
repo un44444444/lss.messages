@@ -77,7 +77,7 @@ function LoginController($scope,$state,$rootScope,AUTH_EVENTS,HTTP_ERROR,ErrorSe
                 MenuService.init(userinfo.userid,function (friendchatidList,groupchatidList,chatroomchatidList,announcechatidList) {
                     IMSdkService.init();//消息服务初始化
                     //订阅聊天室
-                    var mqttLoginInfo = {friendchatidList:friendchatidList,groupchatidList:groupchatidList,chatroomchatidList:chatroomchatidList,announcechatidList:announcechatidList,};
+                    var mqttLoginInfo = {platformtype:"0",friendchatidList:friendchatidList,groupchatidList:groupchatidList,chatroomchatidList:chatroomchatidList,announcechatidList:announcechatidList,};//platformtype:消息系统0；mall外卖到店1；桌媒2；智能立柜3
                     CookieService.putObject('mqttLoginInfo',mqttLoginInfo);
                     IMSdkService.login(mqttLoginInfo);//登录订阅消息
                     $state.go("conversation.blank");
