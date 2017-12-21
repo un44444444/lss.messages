@@ -26,21 +26,10 @@
 
         /*正式设计代码*/
         //topic默认为为添加会话时候三个参数组合：“/”+platform+”/”+ biztype+”/”+biztoutid     platform：0消息系统
-        //好友连天
-        for (var i = 0; i < user.friendchatidList.length; i++) {
-            this.client.subscribe("/0/1/" + user.friendchatidList[i]);
-        }
-        //群组聊天
-        for (var i = 0;i  < user.groupchatidList.length; i++) {
-            this.client.subscribe("/0/2/" + user.groupchatidList[i]);
-        }
-        //订阅聊天室
-        for (var i = 0; i < user.chatroomchatidList.length; i++) {
-            this.client.subscribe("/0/3/" + user.chatroomchatidList[i]);
-        }
-        //订阅公告
-        for (var i = 0; i < user.chatroomchatidList.length; i++) {
-            this.client.subscribe("/0/4/" + user.announcechatidList[i]);
+        for(var i = 0;i < user.body.length;i++){
+            for(var j = 0;j < user.body[i].biztoutidlist.length;j++){
+                this.client.subscribe("/"+user.platformtype+"/"+user.body[i].biztype+"/" + user.body[i].biztoutidlist[j]);
+            }
         }
         //
         return this;
