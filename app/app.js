@@ -21,8 +21,10 @@ angular.module('newchat', [
     'service.auth',
     'service.mqhp.message',
     'service.mqhp.userchatmsg',
-    'service.mqhp.friend',
-    'service.mqhp.usergroup',
+    'service.mqsp.user',
+    'service.mqsp.friend',
+    'service.mqsp.usergroup',
+    'service.mqsp.group',
     'service.menu',
 
     'filter.num'

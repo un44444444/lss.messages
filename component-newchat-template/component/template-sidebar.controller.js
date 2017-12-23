@@ -35,10 +35,20 @@ function TemplateSidebarController($scope,$rootScope,$state,UPDATE_MSG,CookieSer
 
     IMSdkService.onChatMessage(function(platformtype,fromtype, chatid, message) {
         console.log("IMSdkService.onChatMessage() platformtype=",platformtype,",fromtype=", fromtype, ", chatid=", chatid, ", message=", message);
-
         //增加提示消息数目
         var needupdatestate = ["conversation.conversation","conversation.groupconversation"];
-        var needupdatestatus = false;
+        var needupdatestatus = false;//需要更新消息条数
+        var needupdatesiderbar = true;//未在最近会话列表，需要更新siderbarlist状态
+        //更新siderbarlist状态判断
+        for(var i = 0;i < sidebars_list.conversation.length;i++){
+            if(sidebars_list.conversation[i].chatid.toString() == chatid){
+                needupdatesiderbar = false;
+                break;
+            }
+        }
+
+
+        //更新消息条数
         for(var i = 0;i < needupdatestate.length;i++){
             if($state.current.name == needupdatestate[i]){
                 needupdatestatus = true;
@@ -49,7 +59,6 @@ function TemplateSidebarController($scope,$rootScope,$state,UPDATE_MSG,CookieSer
                 if(sidebars_list.conversation[i].chatid.toString() == chatid){
                     sidebars_list.conversation[i].num += 1;
                     sidebars_list.conversation[i].truenum += 1;
-                    console.log(sidebars_list[$state.current.name.split('.')[0]])
                     $scope.$apply(function () {
                         vm.sidebars = sidebars_list[$state.current.name.split('.')[0]];
                     })
@@ -84,6 +93,11 @@ function TemplateSidebarController($scope,$rootScope,$state,UPDATE_MSG,CookieSer
         if (fromtype === "1") {
             console.log("IMSdkService.onChatMessage() 收到好友聊天消息, chatid=", chatid);
 
+            //更新sidebar
+            if(needupdatesiderbar){
+                updatesiderbuddy(chatid)
+            }
+
             //自己发送的消息样式处理为显示在右侧
             cssChange(message.sender);
 
@@ -96,6 +110,11 @@ function TemplateSidebarController($scope,$rootScope,$state,UPDATE_MSG,CookieSer
         // 收到群组聊天消息
         else if (fromtype === "2") {
             console.log("IMSdkService.onChatMessage() 收到群组聊天消息, chatid=", chatid);
+
+            //更新sidebar
+            if(needupdatesiderbar){
+                updatesidergroup(chatid)
+            }
 
             //自己发送的消息样式处理为显示在右侧
             cssChange(message.sender);
@@ -167,7 +186,6 @@ function TemplateSidebarController($scope,$rootScope,$state,UPDATE_MSG,CookieSer
                     groupid:siderbar.groupid,
                     chatid:siderbar.chatid,
                     name:siderbar.name,
-                    notify:siderbar.notify,
                 });
                 break;
 

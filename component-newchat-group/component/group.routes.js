@@ -18,7 +18,7 @@ angular.module('module.group', [])
             })
 
             .state('group.groupinfo', {
-                url: "/groupinfo?groupid&chatid&name&notify",
+                url: "/groupinfo?groupid&chatid&name",
                 views: {
                     "@group": {
                         templateUrl: group_viewurl + "view/groupinfo.html",

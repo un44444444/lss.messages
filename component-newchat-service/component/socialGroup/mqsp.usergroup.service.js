@@ -1,7 +1,7 @@
 /**
  * Created by 黄忠园 on 2017/11/25.
  */
-angular.module('service.mqhp.usergroup', [
+angular.module('service.mqsp.usergroup', [
     'ngResource'
 ])
     .service('MqhpUsergroupService', MqhpUsergroupService);

@@ -79,7 +79,6 @@ function TemplateTopbarController($scope,$state,CookieService,MenuService,UPDATE
                 groupid:vm.groupid,
                 chatid:aim.chatid,
                 name:aim.name,
-                notify:aim.notify,
             })
         }else {
             $state.go("group.blank");

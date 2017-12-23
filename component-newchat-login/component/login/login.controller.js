@@ -5,10 +5,10 @@ angular.module('module.login')
     .controller('LoginController', LoginController)
     .controller('NewfogetController', NewfogetController);
 
-LoginController.$inject = ['$scope','$state','$rootScope','AUTH_EVENTS','HTTP_ERROR','ErrorService','AuthService','CookieService','LocalstorageService','IMSdkService','MqhpFriendService','MqhpUsergroupService','MqhpUserchatmsgService','MenuService'];
+LoginController.$inject = ['$scope','$state','$rootScope','AUTH_EVENTS','HTTP_ERROR','ErrorService','AuthService','CookieService','LocalstorageService','IMSdkService','MenuService','MqspUserService'];
 NewfogetController.$inject = ['$scope','$state','$rootScope','$cookieStore','$interval','AUTH_EVENTS','HTTP_ERROR','ErrorService','SecurityuserService','CookieService'];
 
-function LoginController($scope,$state,$rootScope,AUTH_EVENTS,HTTP_ERROR,ErrorService,AuthService,CookieService,LocalstorageService,IMSdkService,MqhpFriendService,MqhpUsergroupService,MqhpUserchatmsgService,MenuService) {
+function LoginController($scope,$state,$rootScope,AUTH_EVENTS,HTTP_ERROR,ErrorService,AuthService,CookieService,LocalstorageService,IMSdkService,MenuService,MqspUserService) {
     var vm = this;
     $("title").html("媒体运营");
 
@@ -67,42 +67,49 @@ function LoginController($scope,$state,$rootScope,AUTH_EVENTS,HTTP_ERROR,ErrorSe
             user.password = hex_hmac_md5("fjswxxjsyxgstyrz", user.password);
             user.acctype = 1;
             AuthService.login(user,function (userinfo) {
-                CookieService.putObject("currentUser", {
-                    phone: userinfo.phone,
-                    userid: userinfo.userid,
-                    username: userinfo.username,
-                })
-                $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-                // init(userinfo);
-                MenuService.init(userinfo.userid,function (friendchatidList,groupchatidList,chatroomchatidList,announcechatidList) {
-                    IMSdkService.init();//消息服务初始化
-                    //订阅聊天室
-                    var mqttLoginInfo = {
-                        platformtype:"0",
-                        body:[
-                            {
-                                biztype:"1",
-                                biztoutidlist:friendchatidList
-                            },
-                            {
-                                biztype:"2",
-                                biztoutidlist:groupchatidList
-                            },
-                            {
-                                biztype:"3",
-                                biztoutidlist:chatroomchatidList
-                            },
-                            {
-                                biztype:"4",
-                                biztoutidlist:announcechatidList
-                            },
+                //获取头像
+                MqspUserService.getuser(userinfo.userid).$promise.then(function (data) {
+                    CookieService.putObject("currentUser", {
+                        phone: userinfo.phone,
+                        userid: userinfo.userid,
+                        username: data.nickname,
+                        logo:data.logo
+                    })
+                    $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
+                    // init(userinfo);
+                    MenuService.init(userinfo.userid,function (friendchatidList,groupchatidList,chatroomchatidList,announcechatidList) {
+                        IMSdkService.init();//消息服务初始化
+                        //订阅聊天室
+                        var mqttLoginInfo = {
+                            platformtype:"0",
+                            body:[
+                                {
+                                    biztype:"1",
+                                    biztoutidlist:friendchatidList
+                                },
+                                {
+                                    biztype:"2",
+                                    biztoutidlist:groupchatidList
+                                },
+                                {
+                                    biztype:"3",
+                                    biztoutidlist:chatroomchatidList
+                                },
+                                {
+                                    biztype:"4",
+                                    biztoutidlist:announcechatidList
+                                },
 
-                        ]
-                    }
-                    CookieService.putObject('mqttLoginInfo',mqttLoginInfo);
-                    IMSdkService.login(mqttLoginInfo);//登录订阅消息
-                    $state.go("conversation.blank");
+                            ]
+                        }
+                        CookieService.putObject('mqttLoginInfo',mqttLoginInfo);
+                        IMSdkService.login(mqttLoginInfo);//登录订阅消息
+                        $state.go("conversation.blank");
+                    })
+                },function (errorinfo) {
+                    alert("获取消息服务用户信息失败",errorinfo);
                 })
+
             }, function (error) {
                 $rootScope.$broadcast(AUTH_EVENTS.loginFailed,error);
             });

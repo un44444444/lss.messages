@@ -4,9 +4,9 @@
 angular.module('service.menu', [
 ])
     .service('MenuService', MenuService);
-MenuService.$inject = ['CookieService', 'LocalstorageService','MqhpFriendService','MqhpUsergroupService','MqhpUserchatmsgService','IMSdkService'];
+MenuService.$inject = ['CookieService', 'LocalstorageService','MqhpFriendService','MqhpGroupService','MqhpUserchatmsgService','IMSdkService'];
 /*获取好友列表，群组列表，最近消息列表*/
-function MenuService(CookieService,LocalstorageService,MqhpFriendService,MqhpUsergroupService,MqhpUserchatmsgService,IMSdkService) {
+function MenuService(CookieService,LocalstorageService,MqhpFriendService,MqhpGroupService,MqhpUserchatmsgService,IMSdkService) {
 
     var body = {};//暂时存储解析出的消息body
     var getmessage = [];//存储接收的解析后消息
@@ -36,10 +36,23 @@ function MenuService(CookieService,LocalstorageService,MqhpFriendService,MqhpUse
 
             MqhpFriendService.getFriendList(userid).$promise.then(function (friendlist) {
                 for(var i = 0;i < friendlist.length;i++){
-                    friendchatidList.push(friendlist[i].ownuid);
+                    var temp = "";
+                    if(friendlist[i].ownuid < friendlist[i].frienduid){
+                        temp = friendlist[i].ownuid + "," + friendlist[i].frienduid
+                    }else {
+                        temp = friendlist[i].frienduid + "," + friendlist[i].ownuid
+
+                    }
+                    friendchatidList.push(temp);
+                    var logo;
+                    if(friendlist[i].user.logo){
+                        logo = friendlist[i].user.logo;
+                    }else {
+                        logo = "img/defauleAvatar.png";
+                    }
                     var sidebar_template = {
-                        name: "第"+i+"个朋友",
-                        imgurl: "/lss.messages/images/1.jpg",
+                        name: friendlist[i].user.nickname,
+                        imgurl: logo,
                         sref: "buddy.buddyinfo",
                         chatid:friendlist[i].chatid,
                         frienduid:friendlist[i].frienduid,
@@ -49,16 +62,15 @@ function MenuService(CookieService,LocalstorageService,MqhpFriendService,MqhpUse
                 }
                 console.log("好友列表：",sidebars_list.buddy)
             }).then(function () {
-                MqhpUsergroupService.getGroupList(userid).$promise.then(function (grouplist) {
+                MqhpGroupService.getallgroup(userid).$promise.then(function (grouplist) {
                     for(var i = 0;i < grouplist.length;i++){
                         groupchatidList.push(grouplist[i].groupid);
                         var sidebar_template = {
-                            name: "第"+i+"个群组",
-                            imgurl: "/lss.messages/images/1.jpg",
+                            name: grouplist[i].groupname,
+                            imgurl: grouplist[i].logo,
                             sref: "group.groupinfo",
                             chatid:grouplist[i].chatid,
                             groupid:grouplist[i].groupid,
-                            notify:grouplist[i].notify,
                             type:"group"
                         }
                         sidebars_list.group.push(sidebar_template)
@@ -106,7 +118,6 @@ function MenuService(CookieService,LocalstorageService,MqhpFriendService,MqhpUse
                                     sidebar_template.groupid = sidebars_list.group[k].groupid;
                                     sidebar_template.imgurl = sidebars_list.group[k].imgurl;
                                     sidebar_template.name = sidebars_list.group[k].name;
-                                    sidebar_template.notify = sidebars_list.group[k].notify;
                                     sidebar_template.sref = "conversation.groupconversation";
                                     sidebar_template.biztype = 2;
                                     sidebar_template.num = recentlist[i].chatMessages.length;

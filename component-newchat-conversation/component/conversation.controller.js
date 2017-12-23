@@ -52,7 +52,7 @@ function ConversationController($scope,$rootScope,$state,$stateParams,CookieServ
     var name = CookieService.getObject("currentUser").username;//当前账号用户名
     var chatid = $stateParams.chatid;
     var getContentBuffer = "";//设置发送消息内容用于发送
-    var avatar="img/defauleAvatar.png";//用户头像
+    var avatar = CookieService.getObject("currentUser").logo;//用户头像
     vm.name = $stateParams.name;//标题名设置
     vm.sendContent = sendContent;//发送按钮
     vm.keydown = keydown;//发送键盘输入enter事件

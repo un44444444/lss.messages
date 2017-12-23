@@ -11,5 +11,6 @@ var html5mode = false;
 var authurl = 'http://gw.test.shuwang.info/security/';//统一登录
 var mqtt_ws ="ws://120.27.192.219:3000";//连接mqtt服务器地址
 var mqhpUrl = "http://inner.test.shuwang.info/message/mqhp";//mqhp消息接口
+var personalUrl = "http://inner.test.shuwang.info/message/social-user/";//social-user消息个人管理项目
 var socialFriendUrl = "http://inner.test.shuwang.info/message/social-friend";//social-friend消息好友管理项目
 var socialGroupUrl = "http://inner.test.shuwang.info/message/social-group";//social-group消息群组管理项目
