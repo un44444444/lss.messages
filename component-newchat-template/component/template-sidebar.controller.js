@@ -59,6 +59,7 @@ function TemplateSidebarController($scope,$rootScope,$state,UPDATE_MSG,CookieSer
                 if(sidebars_list.conversation[i].chatid.toString() == chatid){
                     sidebars_list.conversation[i].num += 1;
                     sidebars_list.conversation[i].truenum += 1;
+                    sidebars_list.conversation = exchangeOrder(sidebars_list.conversation,i);
                     $scope.$apply(function () {
                         vm.sidebars = sidebars_list[$state.current.name.split('.')[0]];
                     })
@@ -72,11 +73,21 @@ function TemplateSidebarController($scope,$rootScope,$state,UPDATE_MSG,CookieSer
                 if(sidebars_list.conversation[i].chatid == chatid){
                     sidebars_list.conversation[i].num += 1;
                     sidebars_list.conversation[i].truenum += 1;
+                    sidebars_list.conversation = exchangeOrder(sidebars_list.conversation,i);
                     $scope.$apply(function () {
                         vm.sidebars = sidebars_list[$state.current.name.split('.')[0]];
                     })
                     //广播更新topbarTruenum
                     $rootScope.$broadcast(UPDATE_TOPBAR.topbarTruenum);
+                    break;
+                }
+            }
+        }
+
+        if(chatid == $state.params.chatid){
+            for(var i = 0;i < sidebars_list.conversation.length;i++){
+                if(sidebars_list.conversation[i].chatid == chatid){
+                    sidebars_list.conversation = exchangeOrder(sidebars_list.conversation,i);
                     break;
                 }
             }
@@ -197,6 +208,14 @@ function TemplateSidebarController($scope,$rootScope,$state,UPDATE_MSG,CookieSer
         console.log(index);
         //TODO
         alert("暂时没做")
+    }
+
+    //收到新消息更改siderbar顺序
+    function exchangeOrder(arr,i) {
+        var temeplate = arr[i];
+        arr.splice(i,1);
+        arr.splice(0,0,temeplate)
+        return arr;
     }
 
     //接收广播更新sidebars_list

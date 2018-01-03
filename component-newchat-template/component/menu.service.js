@@ -58,6 +58,10 @@ function MenuService(CookieService,LocalstorageService,MqhpFriendService,MqhpGro
                         frienduid:friendlist[i].frienduid,
                         type:"buddy"
                     }
+                    //缓存图片
+                    imgReady(logo, function () {
+                        console.log('size ready: width=' + this.width + '; height=' + this.height);
+                    });
                     sidebars_list.buddy.push(sidebar_template);
                 }
                 console.log("好友列表：",sidebars_list.buddy)
@@ -65,14 +69,24 @@ function MenuService(CookieService,LocalstorageService,MqhpFriendService,MqhpGro
                 MqhpGroupService.getallgroup(userid).$promise.then(function (grouplist) {
                     for(var i = 0;i < grouplist.length;i++){
                         groupchatidList.push(grouplist[i].groupid);
+                        var logo;
+                        if(grouplist[i].logo){
+                            logo = grouplist[i].logo;
+                        }else {
+                            logo = "img/defauleAvatar.png";
+                        }
                         var sidebar_template = {
                             name: grouplist[i].groupname,
-                            imgurl: grouplist[i].logo,
+                            imgurl: logo,
                             sref: "group.groupinfo",
                             chatid:grouplist[i].chatid,
                             groupid:grouplist[i].groupid,
                             type:"group"
                         }
+                        //缓存图片
+                        imgReady(logo, function () {
+                            console.log('size ready: width=' + this.width + '; height=' + this.height);
+                        });
                         sidebars_list.group.push(sidebar_template)
                     }
                     console.log("群列表：",sidebars_list.group)

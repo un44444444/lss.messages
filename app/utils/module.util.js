@@ -94,7 +94,7 @@ function checkphone(phone) {
 }
 
 
-//轮播
+//3d轮播
 function Page() {
 
     var $navArrows = $( '#nav-arrows' ).hide(),
@@ -188,5 +188,3 @@ function Page() {
     return { init : init };
 
 }
-
-
